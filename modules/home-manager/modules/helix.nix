@@ -137,6 +137,18 @@
       };
 
       keys.normal = {
+        "C-r" = [
+          ":write-all"
+          ":insert-output scooter --no-stdin >/dev/tty"
+          ":redraw"
+          ":reload-all"
+        ];
+        "space".g = [
+          ":write-all"
+          ":insert-output lazygit >/dev/tty"
+          ":redraw"
+          ":reload-all"
+        ];
         "space".w = ":w"; # Save with <space>w
         "space".q = ":q"; # Quit with <space>q
         "space".f = [
