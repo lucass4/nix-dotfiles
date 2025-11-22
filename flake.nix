@@ -38,20 +38,20 @@
                 url = "https://github.com/dj95/${pname}/releases/download/v${version}/${pname}.wasm";
                 sha256 = hash;
               };
-            dontUnpack = true;
-            dontConfigure = true;
-            dontBuild = true;
-            installPhase = ''
-              install -Dm444 "$src" "$out/bin/${pname}.wasm"
-            '';
-            dontFixup = true;
-            meta = {
-              description = "Pre-built ${pname} Zellij plugin";
-              homepage = "https://github.com/dj95/${pname}";
-              license = lib.licenses.mit;
-              platforms = lib.platforms.all;
+              dontUnpack = true;
+              dontConfigure = true;
+              dontBuild = true;
+              installPhase = ''
+                install -Dm444 "$src" "$out/bin/${pname}.wasm"
+              '';
+              dontFixup = true;
+              meta = {
+                description = "Pre-built ${pname} Zellij plugin";
+                homepage = "https://github.com/dj95/${pname}";
+                license = lib.licenses.mit;
+                platforms = lib.platforms.all;
+              };
             };
-          };
         in {
           zjstatus = mkPlugin {
             pname = "zjstatus";
@@ -84,12 +84,18 @@
           modules = commonModules;
         }) hosts;
 
+      legacyPackages = forAllSystems (system:
+        import nixpkgs {
+          inherit system;
+          overlays = [ commonOverlay ];
+        });
+
       packages = forAllSystems (system:
         let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [ commonOverlay ];
-          };
-        in { inherit pkgs; });
+          pkgs = self.legacyPackages.${system};
+        in {
+          zjstatus = pkgs.zjstatus;
+          default = pkgs.zjstatus;
+        });
     };
 }
