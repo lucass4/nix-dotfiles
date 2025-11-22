@@ -74,13 +74,6 @@
       shared_except "tmux" "locked" {
         bind "Ctrl a" { SwitchToMode "Tmux"; }
       }
-      shared_except "locked" {
-        bind "Ctrl q" {
-          LaunchOrFocusPlugin "zj-quit" {
-            floating true
-          }
-        }
-      }
     }
 
     plugins {
@@ -138,13 +131,6 @@
         datetime_format   "%A, %d %b %Y %H:%M"
         datetime_timezone "America/Vancouver"
       }
-      
-      zj-quit location="file:${pkgs.zj-quit}/bin/zj-quit.wasm" {
-        confirm_key "q"
-        cancel_key "Esc"
-      }
-
-
     }
   '';
 

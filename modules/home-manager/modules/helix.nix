@@ -205,7 +205,7 @@
           scope = "source.dockerfile";
           file-types = [ "Dockerfile" ];
           auto-format = true;
-          language-servers = [ "dockerfile-language-server-nodejs" ];
+          language-servers = [ "dockerfile-language-server" ];
         }
         {
           name = "yaml";
@@ -300,7 +300,7 @@
       terraform-ls
       gopls
       bash-language-server
-      dockerfile-language-server-nodejs
+      dockerfile-language-server
       yaml-language-server
       nil
       nodePackages.vscode-langservers-extracted

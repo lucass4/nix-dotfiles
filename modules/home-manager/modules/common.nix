@@ -12,7 +12,7 @@
       zellij
 
       # Command replacements
-      du-dust # Better du
+      dust # Better du
       eza # Better ls
       neofetch # Fancy system + hardware info
       tealdeer # Fast tldr
@@ -25,7 +25,7 @@
 
       # Git and version control tools
       git
-      gitAndTools.gh
+      gh
       git-crypt
       git-lfs
       hub

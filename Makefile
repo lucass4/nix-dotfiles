@@ -1,13 +1,17 @@
-.PHONY: setup build clean switch switchx update clean-nix check-updates show-updates
+.PHONY: setup build clean switch switchx update clean-nix check-updates show-updates help
 
-HOSTNAME := $(shell hostname -s) # Use short hostname for consistency with aliases
+help: ## Show this help message
+	@echo "Available commands:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+HISTORY_FILE := $(shell echo $$HOME)/.zsh_history
 
 setup: ## Install Homebrew and Nix
 	@echo "Setting up environment..."
 	# Check if Homebrew is installed
 	if ! command -v brew >/dev/null 2>&1; then \
 		echo "Homebrew not found. Installing Homebrew..."; \
-		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
 	else \
 		echo "Homebrew is already installed."; \
 	fi
@@ -23,15 +27,11 @@ setup: ## Install Homebrew and Nix
 build: switchx ## Apply Nix-Darwin configuration (default build)
 	@echo "Build complete!"
 
-switch: ## Apply Nix-Darwin configuration with Cachix
-	@echo "Applying Nix configuration for $(HOSTNAME) with Cachix..."
-	cachix watch-exec zmre sudo darwin-rebuild -- switch --flake .#$(HOSTNAME)
-
-switchx: ## Apply Nix-Darwin configuration without Cachix
-	@echo "Applying Nix configuration for $(HOSTNAME) without Cachix..."
+switchx: ## Apply Nix-Darwin configuration
+	@echo "Applying Nix configuration for $(HOSTNAME)"
 	sudo darwin-rebuild switch --flake .#$(HOSTNAME)
 
-update: switch ## Update flake inputs, Homebrew, and apply Nix configuration
+update: switchx ## Update flake inputs, Homebrew, and apply Nix configuration
 	@echo "Updating flake inputs and Homebrew..."
 	nix flake update
 	/opt/homebrew/bin/brew update
