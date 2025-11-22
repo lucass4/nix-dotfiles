@@ -26,6 +26,7 @@
       # Git and version control tools
       git
       gh
+      lazygit
       git-crypt
       git-lfs
       hub

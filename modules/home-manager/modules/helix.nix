@@ -137,6 +137,12 @@
       };
 
       keys.normal = {
+        "space".g = [
+          ":write-all"
+          ":insert-output lazygit >/dev/tty"
+          ":redraw"
+          ":reload-all"
+        ];
         "space".w = ":w"; # Save with <space>w
         "space".q = ":q"; # Quit with <space>q
         "space".f = [
