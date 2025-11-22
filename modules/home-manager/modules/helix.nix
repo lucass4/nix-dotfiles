@@ -199,7 +199,7 @@
           name = "dockerfile";
           scope = "source.dockerfile";
           file-types = [ "Dockerfile" ];
-          language-servers = [ "dockerfile-language-server-nodejs" ];
+          language-servers = [ "dockerfile-language-server" ];
         }
         {
           name = "yaml";
@@ -228,7 +228,7 @@
       terraform-ls
       gopls
       bash-language-server
-      dockerfile-language-server-nodejs
+      dockerfile-language-server
       yaml-language-server
       nil
       # Formatters
