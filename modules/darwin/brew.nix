@@ -122,6 +122,7 @@
       "copier"
       "gemini-cli"
       "skopeo"
+      "argocd"
     ];
   };
 }

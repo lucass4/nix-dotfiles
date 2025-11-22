@@ -165,6 +165,7 @@
           scope = "source.rust";
           file-types = [ "rs" ];
           language-servers = [ "rust-analyzer" ];
+          auto-format = true;
           formatter = { command = "${pkgs.rustfmt}/bin/rustfmt"; };
         }
         {
@@ -172,6 +173,7 @@
           scope = "source.python";
           file-types = [ "py" ];
           language-servers = [ "pyright" ];
+          auto-format = true;
           formatter = { command = "${pkgs.black}/bin/black"; };
         }
         {
@@ -179,6 +181,7 @@
           scope = "source.terraform";
           file-types = [ "tf" "tfvars" ];
           language-servers = [ "terraform-ls" ];
+          auto-format = true;
           # terraform-ls provides formatting
         }
         {
@@ -186,6 +189,7 @@
           scope = "source.go";
           file-types = [ "go" ];
           language-servers = [ "gopls" ];
+          auto-format = true;
           formatter = { command = "${pkgs.golines}/bin/golines"; };
         }
         {
@@ -193,12 +197,14 @@
           scope = "source.bash";
           file-types = [ "sh" ];
           language-servers = [ "bash-language-server" ];
+          auto-format = true;
           formatter = { command = "${pkgs.shfmt}/bin/shfmt"; };
         }
         {
           name = "dockerfile";
           scope = "source.dockerfile";
           file-types = [ "Dockerfile" ];
+          auto-format = true;
           language-servers = [ "dockerfile-language-server" ];
         }
         {
@@ -206,6 +212,7 @@
           scope = "source.yaml";
           file-types = [ "yaml" "yml" ];
           language-servers = [ "yaml-language-server" ];
+          auto-format = true;
           formatter = {
             command = "${pkgs.prettier}/bin/prettier";
             args = [ "--parser" "yaml" ];
@@ -216,7 +223,72 @@
           scope = "source.nix";
           file-types = [ "nix" ];
           language-servers = [ "nil" ];
+          auto-format = true;
           formatter = { command = "${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt"; };
+        }
+        {
+          name = "html";
+          language-servers = [ "vscode-html-language-server" ];
+          formatter = {
+            command = "${pkgs.prettier}/bin/prettier";
+            args = [ "--parser" "html" ];
+          };
+          auto-format = true;
+          indent = { tab-width = 2; unit = " "; };
+        }
+        {
+          name = "css";
+          language-servers = [ "vscode-css-language-server" ];
+          formatter = {
+            command = "${pkgs.prettier}/bin/prettier";
+            args = [ "--parser" "css" ];
+          };
+          auto-format = true;
+          indent = { tab-width = 2; unit = " "; };
+        }
+        {
+          name = "typescript";
+          scope = "source.ts";
+          language-servers = [ "typescript-language-server" ];
+          formatter = {
+            command = "${pkgs.prettier}/bin/prettier";
+            args = [ "--parser" "typescript" ];
+          };
+          auto-format = true;
+          indent = { tab-width = 2; unit = " "; };
+        }
+        {
+          name = "tsx";
+          scope = "source.tsx";
+          language-servers = [ "typescript-language-server" ];
+          formatter = {
+            command = "${pkgs.prettier}/bin/prettier";
+            args = [ "--parser" "typescript" ];
+          };
+          auto-format = true;
+          indent = { tab-width = 2; unit = " "; };
+        }
+        {
+          name = "javascript";
+          scope = "source.js";
+          language-servers = [ "typescript-language-server" ];
+          formatter = {
+            command = "${pkgs.prettier}/bin/prettier";
+            args = [ "--parser" "typescript" ];
+          };
+          auto-format = true;
+          indent = { tab-width = 2; unit = " "; };
+        }
+       {
+          name = "jsx";
+          scope = "source.jsx";
+          language-servers = [ "typescript-language-server" ];
+          formatter = {
+            command = "${pkgs.prettier}/bin/prettier";
+            args = [ "--parser" "typescript" ];
+          };
+          auto-format = true;
+          indent = { tab-width = 2; unit = " "; };
         }
       ];
     };
@@ -231,6 +303,9 @@
       dockerfile-language-server
       yaml-language-server
       nil
+      nodePackages.vscode-langservers-extracted
+      nodePackages.typescript-language-server
+      
       # Formatters
       nixpkgs-fmt
       rustfmt
