@@ -25,6 +25,7 @@
     envExtra = ''
       # Skip global compinit to speed up shell startup
       skip_global_compinit=1
+      export PATH="$HOME/.istioctl/bin:$PATH"
     '';
 
     # Zsh completion initialization

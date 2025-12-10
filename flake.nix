@@ -28,41 +28,8 @@
         "fg-lstanaanna" = "aarch64-darwin";
       };
 
-      # Common overlay for Zellij plugins
-      commonOverlay = final: prev:
-        let
-          mkPlugin = { pname, version, hash }:
-            final.stdenvNoCC.mkDerivation {
-              inherit pname version;
-              src = final.fetchurl {
-                url = "https://github.com/dj95/${pname}/releases/download/v${version}/${pname}.wasm";
-                sha256 = hash;
-              };
-              dontUnpack = true;
-              dontConfigure = true;
-              dontBuild = true;
-              installPhase = ''
-                install -Dm444 "$src" "$out/bin/${pname}.wasm"
-              '';
-              dontFixup = true;
-              meta = {
-                description = "Pre-built ${pname} Zellij plugin";
-                homepage = "https://github.com/dj95/${pname}";
-                license = lib.licenses.mit;
-                platforms = lib.platforms.all;
-              };
-            };
-        in {
-          zjstatus = mkPlugin {
-            pname = "zjstatus";
-            version = "0.21.1";
-            hash = "06mfcijmsmvb2gdzsql6w8axpaxizdc190b93s3nczy212i846fw";
-          };
-        };
-
       # Common modules for all systems
       commonModules = [
-        { nixpkgs.overlays = [ commonOverlay ]; }
         ./modules/darwin
         home-manager.darwinModules.home-manager
         {
@@ -87,15 +54,6 @@
       legacyPackages = forAllSystems (system:
         import nixpkgs {
           inherit system;
-          overlays = [ commonOverlay ];
-        });
-
-      packages = forAllSystems (system:
-        let
-          pkgs = self.legacyPackages.${system};
-        in {
-          zjstatus = pkgs.zjstatus;
-          default = pkgs.zjstatus;
         });
     };
 }

@@ -9,7 +9,6 @@
       bash
       zsh
       reattach-to-user-namespace
-      zellij
 
       # Command replacements
       dust # Better du

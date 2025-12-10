@@ -1,11 +1,11 @@
 { lib, manual, config, pkgs, ... }: {
   imports = [
-    ./modules/rio.nix
+    ./modules/wezterm.nix
     ./modules/zsh.nix
     ./modules/common.nix
     ./modules/git.nix
     ./modules/helix.nix
-    ./modules/zellij.nix
+    ./modules/tmux.nix
     ./modules/yazi.nix
     ./modules/languages/docker.nix
     ./modules/languages/go.nix
