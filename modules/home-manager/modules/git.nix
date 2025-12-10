@@ -16,12 +16,17 @@
       http.sslVerify = true;
       commit.verbose = true;
       diff.algorithm = "patience";
+      diff.tool = "delta";
 
       push.autoSetupRemote = true;
 
       core.editor = "hx";
+      core.pager = "${pkgs.delta}/bin/delta";
       core.fileMode = false;
       core.ignorecase = false;
+      difftool.prompt = false;
+      difftool."delta".cmd =
+        "${pkgs.delta}/bin/delta --color-only --line-numbers --navigate --side-by-side \"$LOCAL\" \"$REMOTE\"";
       url."git@github.com:".insteadOf = "https://github.com/";
     };
   };
@@ -34,6 +39,15 @@
       syntax-theme = "Monokai Extended";
       line-numbers = true;
       navigate = true;
+    };
+  };
+
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+      editor = "hx";
+      pager = "${pkgs.delta}/bin/delta --paging=always";
     };
   };
 }

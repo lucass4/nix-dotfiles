@@ -5,6 +5,7 @@ help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 HISTORY_FILE := $(shell echo $$HOME)/.zsh_history
+HOSTNAME ?= $(shell hostname -s)
 
 setup: ## Install Homebrew and Nix
 	@echo "Setting up environment..."
@@ -53,7 +54,7 @@ clean-nix: ## Clean up Nix generations and garbage collect
 
 check-updates: ## Check for Nix and Homebrew updates
 	@echo "Checking for Nix and Homebrew updates..."
-	nix flake update
+	nix flake check
 	sudo darwin-rebuild build --flake .#$(HOSTNAME) && nix store diff-closures /nix/var/nix/profiles/system result
 	/opt/homebrew/bin/brew update >& /dev/null && /opt/homebrew/bin/brew upgrade -n -g
 	@echo "Update check complete!"
