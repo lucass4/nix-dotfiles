@@ -116,8 +116,6 @@
       tf = "terraform";
 
       # Other aliases
-      vim = "hx";
-      vi = "hx";
       assume = "source /opt/homebrew/bin/assume";
       fz =
         "fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'";
