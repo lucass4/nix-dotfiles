@@ -9,6 +9,9 @@
       theme = "catppuccin_mocha";
 
       editor = {
+        # Use OSC52 via termcodes so it works inside tmux with terminal overrides
+        clipboard-provider = "termcode";
+
         # Number of inlines of padding around the edge of the screen when scrolling
         scrolloff = 5;
 

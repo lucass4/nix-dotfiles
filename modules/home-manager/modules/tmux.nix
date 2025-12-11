@@ -35,6 +35,9 @@
       set -g default-terminal "screen-256color"  # with 256 color capability
       set -g mouse on                          # enable mouse mode
       set -g status-left-length 50
+      # OSC52 passthrough so apps (Helix) can copy to macOS clipboard inside tmux
+      set -g set-clipboard on
+      set -ga terminal-overrides ",*:Ms=\\E]52;c;%p2%s\\7"
       ## General Settings
       setw -g xterm-keys on                     # enable xterm keys
       set-option -sg escape-time 0 # change the escape time in tmux to zero, improves vim responsiveness
