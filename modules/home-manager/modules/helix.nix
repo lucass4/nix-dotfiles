@@ -1,6 +1,16 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }:
+let
+  helixPkg = pkgs.helix.overrideAttrs (old: {
+    postInstall = (old.postInstall or "") + ''
+      # Provide runtime next to the binary for clean health checks
+      ln -s $out/lib/runtime $out/bin/runtime
+    '';
+  });
+in
+{
   programs.helix = {
     enable = true;
+    package = helixPkg;
 
     # The catppuccin-mocha theme, provided by the helix-themes flake
     themes = inputs.helix-themes.outputs.themes;
@@ -17,6 +27,9 @@
 
         # Middle click paste support
         middle-click-paste = true;
+
+        # Use macOS pasteboard (pbcopy/pbpaste) for clipboard integration
+        clipboard-provider = "pasteboard";
 
         # Number of lines to scroll per scroll wheel step
         scroll-lines = 3;
@@ -291,7 +304,7 @@
           auto-format = true;
           indent = { tab-width = 2; unit = " "; };
         }
-       {
+        {
           name = "jsx";
           scope = "source.jsx";
           language-servers = [ "typescript-language-server" ];
@@ -317,7 +330,7 @@
       nil
       nodePackages.vscode-langservers-extracted
       nodePackages.typescript-language-server
-      
+
       # Formatters
       nixpkgs-fmt
       rustfmt
@@ -327,4 +340,6 @@
       prettier
     ];
   };
+
+  home.file.".config/helix/runtime".source = "${helixPkg}/lib/runtime";
 }
