@@ -69,6 +69,10 @@
       bind b list-buffers  # list paste buffers
       bind p paste-buffer  # paste from the top paste buffer
       bind P choose-buffer # choose which buffer to paste from
+
+      # Keep C-l for clearing the pane instead of vim-tmux-navigator's pane move
+      unbind -n C-l
+      bind-key -n C-l send-keys C-l
     '';
   };
 }
