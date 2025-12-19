@@ -47,7 +47,7 @@
     SYSTEMD_COLORS = "true";
     COLORTERM = "truecolor";
     FZF_CTRL_R_OPTS = "--sort --exact";
-    BROWSER = "brave";
+    BROWSER = "open -a Firefox";
     TERMINAL = "alacritty";
     HOMEBREW_NO_AUTO_UPDATE = 1;
   };
