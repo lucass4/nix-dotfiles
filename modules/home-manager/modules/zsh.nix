@@ -120,6 +120,7 @@
       fz =
         "fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'";
       findport = "sudo lsof -iTCP -sTCP:LISTEN -n -P | grep";
+      clean-dsstore = "find . -name '.DS_Store' -type f -print -delete";
 
     } // lib.optionalAttrs pkgs.stdenv.isDarwin {
       # macOS-specific commands

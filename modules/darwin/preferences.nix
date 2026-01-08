@@ -28,6 +28,13 @@
       _FXShowPosixPathInTitle = true;
     };
 
+    # Custom domain preferences.
+    CustomUserPreferences."com.apple.desktopservices" = {
+      # Prevent writing .DS_Store files on network/USB volumes.
+      DSDontWriteNetworkStores = true;
+      DSDontWriteUSBStores = true;
+    };
+
     # Dock-specific settings.
     dock = { autohide = true; };
   };
