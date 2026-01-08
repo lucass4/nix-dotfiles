@@ -15,7 +15,6 @@
       eza # Better ls
       neofetch # Fancy system + hardware info
       tealdeer # Fast tldr
-      dogdns # Replacement for dig
       ripgrep # Replacement for grep
       fd # Replacement for find
       bat # Replacement for cat
