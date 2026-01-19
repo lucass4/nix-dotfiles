@@ -4,6 +4,14 @@ let
     postInstall = (old.postInstall or "") + ''
       # Provide runtime next to the binary for clean health checks
       ln -s $out/lib/runtime $out/bin/runtime
+
+      # Terraform uses the HCL grammar but the upstream runtime is missing
+      # per-language query stubs, so add ones that inherit from HCL to keep
+      # syntax highlighting/textobjects/indents working for *.tf files.
+      mkdir -p $out/lib/runtime/queries/terraform
+      for query in folds highlights indents injections textobjects; do
+        echo "; inherits: hcl" >"$out/lib/runtime/queries/terraform/''${query}.scm"
+      done
     '';
   });
 in
@@ -205,6 +213,7 @@ in
           name = "terraform";
           scope = "source.terraform";
           file-types = [ "tf" "tfvars" ];
+          grammar = "hcl";
           language-servers = [ "terraform-ls" ];
           auto-format = true;
           # terraform-ls provides formatting

@@ -50,6 +50,7 @@
       kubectl
       krew
       kubernetes-helm
+      kyverno
       colima
       docker-client
 

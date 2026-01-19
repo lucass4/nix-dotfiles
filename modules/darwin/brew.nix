@@ -125,6 +125,7 @@
       "gemini-cli"
       "skopeo"
       "argocd"
+      "opencode"
     ];
   };
 }
