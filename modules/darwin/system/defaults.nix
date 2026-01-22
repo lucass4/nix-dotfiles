@@ -14,30 +14,74 @@
 
     # macOS system-wide preferences
     defaults = {
-      # Global domain settings for key repeat.
+      # Global domain settings
       NSGlobalDomain = {
-        # Key repeat delay (lower is faster). Default is 15 (225ms).
-        InitialKeyRepeat = 14; # (210ms)
-        # Key repeat rate (lower is faster). Default is 2 (30ms).
-        KeyRepeat = 1; # (15ms)
+        # Key repeat settings (faster than defaults)
+        InitialKeyRepeat = 14; # Delay before repeat (210ms)
+        KeyRepeat = 1; # Key repeat rate (15ms)
+
+        # Disable press-and-hold for keys in favor of key repeat
+        ApplePressAndHoldEnabled = false;
+
+        # Appearance
+        AppleInterfaceStyle = "Dark"; # Dark mode
+
+        # Disable auto-correct and auto-capitalization
+        NSAutomaticCapitalizationEnabled = false;
+        NSAutomaticPeriodSubstitutionEnabled = false;
+        NSAutomaticSpellingCorrectionEnabled = false;
+        NSAutomaticQuoteSubstitutionEnabled = false;
+        NSAutomaticDashSubstitutionEnabled = false;
+
+        # Expand save and print panels by default
+        NSNavPanelExpandedStateForSaveMode = true;
+        PMPrintingExpandedStateForPrint = true;
       };
 
-      # Finder-specific settings.
+      # Finder settings
       finder = {
         AppleShowAllExtensions = true;
         _FXShowPosixPathInTitle = true;
+        FXPreferredViewStyle = "Nlsv"; # List view by default
+        ShowPathbar = true;
+        ShowStatusBar = true;
+        FXEnableExtensionChangeWarning = false; # Disable extension change warning
       };
 
-      # Custom domain preferences.
-      CustomUserPreferences."com.apple.desktopservices" = {
-        # Prevent writing .DS_Store files on network/USB volumes.
-        DSDontWriteNetworkStores = true;
-        DSDontWriteUSBStores = true;
-      };
-
-      # Dock-specific settings.
+      # Dock settings
       dock = {
         autohide = true;
+        show-recents = false; # Don't show recent applications
+
+        # Hot corners
+        wvous-tl-corner = 2; # Top-left: Mission Control
+        wvous-tr-corner = 4; # Top-right: Desktop
+        wvous-bl-corner = 3; # Bottom-left: Application Windows
+        wvous-br-corner = 11; # Bottom-right: Launchpad
+      };
+
+      # Menu bar clock settings
+      menuExtraClock = {
+        ShowSeconds = true;
+        ShowDayOfWeek = true;
+        ShowAMPM = true;
+        ShowDate = 0; # 0 = never, 1 = when space allows, 2 = always
+      };
+
+      # Custom domain preferences
+      CustomUserPreferences = {
+        # Desktop Services - prevent .DS_Store on network/USB
+        "com.apple.desktopservices" = {
+          DSDontWriteNetworkStores = true;
+          DSDontWriteUSBStores = true;
+        };
+
+        # Screenshot settings
+        "com.apple.screencapture" = {
+          location = "~/Pictures/Screenshots";
+          type = "png";
+          disable-shadow = false;
+        };
       };
     };
 
