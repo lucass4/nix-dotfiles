@@ -41,6 +41,7 @@
       # Finder settings
       finder = {
         AppleShowAllExtensions = true;
+        AppleShowAllFiles = true; # Show hidden files
         _FXShowPosixPathInTitle = true;
         FXPreferredViewStyle = "Nlsv"; # List view by default
         ShowPathbar = true;
