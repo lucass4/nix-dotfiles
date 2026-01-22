@@ -79,7 +79,7 @@
 
         # Screenshot settings
         "com.apple.screencapture" = {
-          location = "~/Pictures/Screenshots";
+          location = "~/Desktop/Screenshots";
           type = "png";
           disable-shadow = false;
         };
