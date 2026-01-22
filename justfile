@@ -227,7 +227,7 @@ info:
     @nix --version
     @echo ""
     @echo "📊 Current generation:"
-    @darwin-rebuild --list-generations | tail -n 1
+    @sudo darwin-rebuild --list-generations | tail -n 1
     @echo ""
     @echo "💾 Nix store size:"
     @du -sh /nix/store 2>/dev/null || echo "Unable to determine"
@@ -240,7 +240,7 @@ show:
 # List all system generations
 generations:
     @echo "📚 System generations:"
-    darwin-rebuild --list-generations
+    sudo darwin-rebuild --list-generations
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # Development
