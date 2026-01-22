@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+# General development tools and utilities
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     # GitHub Actions local execution
     act

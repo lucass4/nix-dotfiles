@@ -1,4 +1,6 @@
-{ config, lib, pkgs, ... }: {
+# Zsh shell configuration with plugins and aliases
+{ config, lib, pkgs, ... }:
+{
   # Enable Starship prompt and Zsh integration
   programs.starship = {
     enable = true;
@@ -40,21 +42,21 @@
 
     # Additional Zsh initialization commands
     initContent = ''
-        # Setup zoxidec
-        eval "$(zoxide init zsh)"
-        path+=/Users/lucas/bin
-        export GPG_TTY=$(tty)
+      # Setup zoxide
+      eval "$(zoxide init zsh)"
+      path+=${config.home.homeDirectory}/bin
+      export GPG_TTY=$(tty)
 
-        export SDKMAN_DIR="$HOME/.sdkman"
-        [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+      export SDKMAN_DIR="${config.home.homeDirectory}/.sdkman"
+      [[ -s "${config.home.homeDirectory}/.sdkman/bin/sdkman-init.sh" ]] && source "${config.home.homeDirectory}/.sdkman/bin/sdkman-init.sh"
 
-       function y() {
-      	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-      	yazi "$@" --cwd-file="$tmp"
-      	IFS= read -r -d \'\' cwd < "$tmp"
-      	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-      	rm -f -- "$tmp"
-       }
+      function y() {
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        yazi "$@" --cwd-file="$tmp"
+        IFS= read -r -d \'\' cwd < "$tmp"
+        [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+        rm -f -- "$tmp"
+      }
     '';
 
     # Session variables
@@ -93,11 +95,9 @@
       du = "dust"; # Use dust instead of du
       rpassword = "tr -dc A-Za-z0-9 </dev/urandom | head -c 20 |  pbcopy";
 
-      # Docker and Kubernetes
+      # Docker and infrastructure tools
       d = "docker";
       dc = "docker compose";
-      k = "kubectl";
-      kn = "kubectl config set-context --current --namespace";
       tg = "terragrunt";
       tf = "terraform";
 

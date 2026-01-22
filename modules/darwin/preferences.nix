@@ -1,4 +1,6 @@
-{ config, ... }: {
+# macOS system preferences and activation scripts
+{ config, ... }:
+{
   # Set the primary user for the system.
   system.primaryUser = "lucas";
 

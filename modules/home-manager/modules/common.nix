@@ -1,3 +1,4 @@
+# Common CLI tools and modern replacements for standard Unix utilities
 { pkgs, lib, ... }:
 let
   # Modern CLI replacements

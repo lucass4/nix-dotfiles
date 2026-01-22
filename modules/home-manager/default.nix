@@ -1,4 +1,6 @@
-{ lib, manual, config, pkgs, ... }: {
+# Home Manager configuration entry point
+{ lib, config, pkgs, ... }:
+{
   imports = [
     # Core modules
     ./modules/common.nix

@@ -1,4 +1,6 @@
-{ inputs, config, pkgs, ... }: {
+# Core nix-darwin system configuration
+{ inputs, config, pkgs, ... }:
+{
   programs.zsh.enable = true;
   environment = {
     systemPackages = [ pkgs.coreutils ];
@@ -8,8 +10,8 @@
 
   users.users."lucas".home = "/Users/lucas";
 
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-  nix.settings = { download-buffer-size = 67108864; };
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    download-buffer-size = 67108864;
+  };
 }

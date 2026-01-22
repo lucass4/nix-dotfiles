@@ -1,1 +1,9 @@
-{ pkgs, ... }: { imports = [ ./core.nix ./brew.nix ./preferences.nix ]; }
+# nix-darwin configuration entry point
+{ pkgs, ... }:
+{
+  imports = [
+    ./core.nix
+    ./brew.nix
+    ./preferences.nix
+  ];
+}

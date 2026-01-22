@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+# Kubernetes and container tools configuration
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     # Kubernetes CLI and context management
     kubectl
@@ -16,10 +18,11 @@
     docker-client
   ];
 
-  # Kubernetes shell aliases could go in zsh.nix or here
+  # Kubernetes shell aliases
   home.shellAliases = {
     k = "kubectl";
     kx = "kubectx";
     kns = "kubens";
+    kn = "kubectl config set-context --current --namespace";
   };
 }

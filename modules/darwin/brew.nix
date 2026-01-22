@@ -1,3 +1,4 @@
+# Homebrew package management configuration
 {
   # Homebrew configuration
   homebrew = {
@@ -117,7 +118,7 @@
       # Additional utilities
       "bdw-gc"
       "ca-certificates"
-      "go"
+      "go" # Required by m1-terraform-provider-helper
       "jpeg-turbo"
       "trivy"
       "devspace"

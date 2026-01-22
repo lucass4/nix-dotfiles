@@ -1,4 +1,6 @@
-{ config, pkgs, lib, libs, ... }: {
+# Git configuration with delta integration and common aliases
+{ pkgs, lib, ... }:
+{
   programs.git = {
     enable = true;
     signing.key = "56AE81F1E53DC9DC";
@@ -51,12 +53,12 @@
       log.date = "relative";
 
       core.editor = "hx";
-      core.pager = "${pkgs.delta}/bin/delta";
+      core.pager = lib.getExe pkgs.delta;
       core.fileMode = false;
       core.ignorecase = false;
       difftool.prompt = false;
       difftool."delta".cmd =
-        "${pkgs.delta}/bin/delta --color-only --line-numbers --navigate --side-by-side \"$LOCAL\" \"$REMOTE\"";
+        "${lib.getExe pkgs.delta} --color-only --line-numbers --navigate --side-by-side \"$LOCAL\" \"$REMOTE\"";
       url."git@github.com:".insteadOf = "https://github.com/";
     };
   };
@@ -77,7 +79,7 @@
     settings = {
       git_protocol = "ssh";
       editor = "hx";
-      pager = "${pkgs.delta}/bin/delta --paging=always";
+      pager = "${lib.getExe pkgs.delta} --paging=always";
     };
   };
 }
