@@ -75,7 +75,7 @@
     # Enable Oh My Zsh and configure plugins
     oh-my-zsh = {
       enable = true;
-      plugins = [ "sudo" "vim-interaction" "fzf" "vi-mode" "zoxide" ];
+      plugins = [ "sudo" "vim-interaction" "fzf" "vi-mode" "zoxide" "git" "extract" "command-not-found" ];
     };
 
     # Shell aliases for improved command usability
@@ -91,20 +91,6 @@
       grep = "rg"; # Use ripgrep for search
       rm = "trash"; # Use trash instead of rm
       du = "dust"; # Use dust instead of du
-
-      # Git aliases
-      g = "git";
-      ga = "git add";
-      gc = "git commit";
-      gco = "git checkout";
-      gcl = "git clone";
-      gcm = "git checkout main";
-      gd = "git diff";
-      glo =
-        "git log --pretty=format:'%C(yellow)%h %Cred%ar %Cblue%an%Cgreen%d %Creset%s' --date=short";
-      gl = "git pull";
-      gp = "git push";
-      gst = "git status -s";
       rpassword = "tr -dc A-Za-z0-9 </dev/urandom | head -c 20 |  pbcopy";
 
       # Docker and Kubernetes
