@@ -92,11 +92,13 @@
     # Shell aliases for improved command usability
     shellAliases = {
       # File and directory management
-      ls = "eza --icons --git-ignore --git -F --extended";
-      l = "eza --icons --git-ignore --git -F --extended";
-      ll = "eza --icons --git-ignore --git -F --extended -l";
-      lt = "eza --icons --git-ignore --git -F --extended -T";
-      llt = "eza --icons --git-ignore --git -F --extended -l -T";
+      ls = "eza --icons --git -F";
+      l = "eza --icons --git -F";
+      ll = "eza --icons --git -F -l";
+      la = "eza --icons --git -F -a";
+      lla = "eza --icons --git -F -la";
+      lt = "eza --icons --git -F -T";
+      llt = "eza --icons --git -F -l -T";
       fd = "\\fd -H -t d"; # Default search directories
       f = "\\fd -H"; # Search this dir for files, ignoring .gitignore
       grep = "rg"; # Use ripgrep for search
