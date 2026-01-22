@@ -1,83 +1,135 @@
-{ pkgs, ... }: {
+# Tmux terminal multiplexer configuration
+{ pkgs, ... }:
+{
   programs.tmux = {
     enable = true;
+
+    # Core settings
     aggressiveResize = true;
     baseIndex = 1;
     clock24 = true;
     disableConfirmationPrompt = true;
+    escapeTime = 0; # Better vim/helix responsiveness
+    historyLimit = 50000; # Increased scrollback
     keyMode = "vi";
+    mouse = true;
     prefix = "C-a";
-    terminal = "screen-256color";
+    terminal = "tmux-256color";
+
+    # Plugins
     plugins = with pkgs.tmuxPlugins; [
-      copycat
-      extrakto
-      nord
-      resurrect
-      continuum
-      prefix-highlight
-      tmux-fzf
-      vim-tmux-navigator
+      sensible # Better defaults
+      yank # Enhanced copy/paste
+      catppuccin # Match Helix theme
+      copycat # Regex searches
+      extrakto # Fuzzy text extraction
+      resurrect # Session restoration
+      continuum # Automatic session saving
+      prefix-highlight # Show prefix key
+      tmux-fzf # Fuzzy finder integration
+      vim-tmux-navigator # Seamless vim/tmux navigation
+      pain-control # Better pane management
     ];
 
     extraConfig = ''
+      # ── Plugin Configuration ─────────────────────────────────────────────────
+
+      # tmux-fzf settings
       TMUX_FZF_LAUNCH_KEY="C-f"
 
-      # Session persistence settings
-      set -g @continuum-restore 'on'           # automatically restore sessions on tmux start
-      set -g @continuum-save-interval '15'     # save session every 15 minutes
+      # Continuum - session persistence
+      set -g @continuum-restore 'on'           # Auto-restore sessions on tmux start
+      set -g @continuum-save-interval '15'     # Save session every 15 minutes
 
-      set -g detach-on-destroy off             # When destory switch to the prev session
-      set -ga terminal-overrides ",xterm-256color:Tc"
-      set -g default-shell $SHELL              # use default shell
-      set -g renumber-windows on               # renumber windows when a window is closed
-      set -g status on                         # status bar on
-      set -g status-interval 30                # update status bar every 30 seconds
-      set -g history-limit 5000                # scrollback buffer
-      set -g display-time 800
-      set -g status-left-length 30
-      set -g base-index 1
-      set -g pane-base-index 1
-      set -g default-terminal "screen-256color"  # with 256 color capability
-      set -g mouse on                          # enable mouse mode
-      set -g status-left-length 50
-      ## General Settings
-      setw -g xterm-keys on                     # enable xterm keys
-      set-option -sg escape-time 0 # change the escape time in tmux to zero, improves vim responsiveness
+      # Catppuccin theme customization
+      set -g @catppuccin_flavour 'mocha'       # Match Helix theme
 
-      ## Copy and Paste
+      # ── General Settings ──────────────────────────────────────────────────────
+
+      set -g detach-on-destroy off             # Switch to previous session when destroying
+      set -g renumber-windows on               # Renumber windows when one is closed
+      set -g status on                         # Enable status bar
+      set -g status-interval 30                # Update status bar every 30 seconds
+      set -g display-time 800                  # Display messages for 800ms
+      set -g status-left-length 50             # Status bar left length
+      set -g status-right-length 50            # Status bar right length
+      set -g focus-events on                   # Enable focus events for better editor integration
+      setw -g xterm-keys on                    # Enable xterm keys
+
+      # Terminal settings
+      set -g default-shell $SHELL
+      set-option -sa terminal-overrides ",xterm*:Tc"
+      set-option -ga terminal-features ",xterm-256color:RGB"
+
+      # ── Copy Mode ──────────────────────────────────────────────────────────────
+
       bind Escape copy-mode
       bind p paste-buffer
-      bind -T copy-mode-vi v send -X begin-selection
-      bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
-      bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
-      bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
-      # ── Pane settings ───────────────────────────────────────────────────────────
 
-      # Pane resizing {{{
-        bind-key -r H resize-pane -L "5"
-        bind-key -r L resize-pane -R "5"
-        bind-key -r J resize-pane -D "5"
-        bind-key -r K resize-pane -U "5"
-      # }}}
+      # Vi-style visual selection and copy
+      bind-key -T copy-mode-vi v send -X begin-selection
+      bind-key -T copy-mode-vi C-v send -X rectangle-toggle
+      bind-key -T copy-mode-vi V send -X select-line
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
+      bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
+      bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
 
-      ## More key binds
-      bind ! split-window -h -c "#{pane_current_path}"          # split horizontally
-      bind - split-window -v -c "#{pane_current_path}"          # split vertically
-      bind n new-window                                         # open new window
-      bind x kill-pane                                          # kill pane without confirmation
-      bind k kill-window                                        # kill window
-      bind q kill-session                                       # kill session
-      bind r source-file ~/.config/tmux/tmux.conf               # reload tmux config
-      bind t select-layout tiled                                # tiled layout
+      # ── Pane Management ───────────────────────────────────────────────────────
 
-      # Buffers
-      bind b list-buffers  # list paste buffers
-      bind p paste-buffer  # paste from the top paste buffer
-      bind P choose-buffer # choose which buffer to paste from
+      # Pane splitting
+      bind ! split-window -h -c "#{pane_current_path}"  # Split horizontally
+      bind - split-window -v -c "#{pane_current_path}"  # Split vertically
 
-      # Keep C-l for clearing the pane instead of vim-tmux-navigator's pane move
+      # Pane resizing (repeatable)
+      bind-key -r H resize-pane -L "5"
+      bind-key -r L resize-pane -R "5"
+      bind-key -r J resize-pane -D "5"
+      bind-key -r K resize-pane -U "5"
+
+      # Pane swapping
+      bind > swap-pane -D  # Swap pane down
+      bind < swap-pane -U  # Swap pane up
+
+      # ── Window Management ─────────────────────────────────────────────────────
+
+      bind c new-window -c "#{pane_current_path}"  # New window in current path
+      bind n new-window                            # New window in home
+      bind Space last-window                       # Toggle between windows
+
+      # Quick window navigation (Alt+H/L)
+      bind -n M-H previous-window
+      bind -n M-L next-window
+
+      # ── Session Management ────────────────────────────────────────────────────
+
+      bind BSpace switch-client -l  # Toggle between sessions
+
+      # ── Layouts and Misc ──────────────────────────────────────────────────────
+
+      bind t select-layout tiled  # Tiled layout
+
+      # Kill commands
+      bind x kill-pane            # Kill pane without confirmation
+      bind k kill-window          # Kill window
+      bind q kill-session         # Kill session
+
+      # Reload config
+      bind r source-file ~/.config/home-manager/tmux.conf \; display-message "Config reloaded!"
+
+      # Buffer management
+      bind b list-buffers   # List paste buffers
+      bind P choose-buffer  # Choose buffer to paste
+
+      # Send prefix to nested tmux session
+      bind C-a send-prefix
+
+      # Keep C-l for clearing the pane
       unbind -n C-l
       bind-key -n C-l send-keys C-l
+
+      # Popup support for lazygit (if installed)
+      bind g display-popup -E -w 90% -h 90% -d "#{pane_current_path}" lazygit
     '';
   };
 }
+
