@@ -5,18 +5,14 @@
     enable = true;
 
     # Core settings
-    aggressiveResize = true;
-    baseIndex = 1;
     clock24 = true;
     disableConfirmationPrompt = true;
-    escapeTime = 0; # Better vim/helix responsiveness
     historyLimit = 50000; # Increased scrollback
-    keyMode = "vi";
-    mouse = true;
     prefix = "C-a";
     terminal = "tmux-256color";
 
     # Plugins
+    # tmux-sensible supplies the base defaults (mouse on, vi keys, escape-time 0, base index 1, window renumbering).
     plugins = with pkgs.tmuxPlugins; [
       sensible # Better defaults
       yank # Enhanced copy/paste
@@ -68,11 +64,9 @@
       # ── General Settings ──────────────────────────────────────────────────────
 
       set -g detach-on-destroy off             # Switch to previous session when destroying
-      set -g renumber-windows on               # Renumber windows when one is closed
       set -g status on                         # Enable status bar
       set -g status-interval 30                # Update status bar every 30 seconds
       set -g display-time 800                  # Display messages for 800ms
-      set -g focus-events on                   # Enable focus events for better editor integration
       setw -g xterm-keys on                    # Enable xterm keys
 
       # Terminal settings
@@ -82,6 +76,8 @@
 
       # ── Copy Mode ──────────────────────────────────────────────────────────────
 
+      # Enter copy mode with the usual prefix+[ as well as prefix+Esc (C-[)
+      bind [ copy-mode
       bind Escape copy-mode
       bind p paste-buffer
 
