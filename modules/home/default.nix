@@ -2,30 +2,34 @@
 { ... }:
 {
   imports = [
-    # Core modules
-    ./modules/common.nix
-    ./modules/git.nix
-    ./modules/kubernetes.nix
-    ./modules/development.nix
+    # Shell configuration
+    ./shell/zsh.nix
 
-    # Terminal and editors
-    ./modules/wezterm.nix
-    ./modules/zsh.nix
-    ./modules/helix.nix
-    ./modules/tmux.nix
-    ./modules/yazi.nix
+    # Editors
+    ./editors/helix.nix
 
-    # Language support
-    ./modules/languages/docker.nix
-    ./modules/languages/go.nix
-    ./modules/languages/lua.nix
-    ./modules/languages/markup.nix
-    ./modules/languages/node.nix
-    ./modules/languages/python.nix
-    ./modules/languages/rust.nix
-    ./modules/languages/terraform.nix
-    ./modules/languages/nix.nix
-    ./modules/languages/bash.nix
+    # Terminal emulators
+    ./terminals/wezterm.nix
+    ./terminals/tmux.nix
+
+    # CLI tools and utilities
+    ./cli/common.nix
+    ./cli/git.nix
+    ./cli/yazi.nix
+
+    # Development environments
+    ./dev/base.nix
+    ./dev/kubernetes.nix
+    ./dev/docker.nix
+    ./dev/go.nix
+    ./dev/lua.nix
+    ./dev/markup.nix
+    ./dev/node.nix
+    ./dev/python.nix
+    ./dev/rust.nix
+    ./dev/terraform.nix
+    ./dev/nix.nix
+    ./dev/bash.nix
   ];
 
   home.stateVersion = "25.05";

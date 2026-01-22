@@ -83,7 +83,7 @@
                       useUserPackages = true;
 
                       users.${username} = {
-                        imports = [ ./modules/home-manager ];
+                        imports = [ ./modules/home ];
                       };
 
                       extraSpecialArgs = {

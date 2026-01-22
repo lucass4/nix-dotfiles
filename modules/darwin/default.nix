@@ -2,8 +2,8 @@
 { ... }:
 {
   imports = [
-    ./core.nix
-    ./brew.nix
+    ./system.nix
+    ./homebrew.nix
     ./preferences.nix
   ];
 }
