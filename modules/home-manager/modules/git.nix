@@ -10,6 +10,15 @@
         email = "76971778+lucass4@users.noreply.github.com";
       };
 
+      alias = {
+        co = "checkout";
+        br = "branch";
+        st = "status -sb";
+        lg = "log --graph --oneline --all";
+        uncommit = "reset --soft HEAD^";
+        amend = "commit --amend --no-edit";
+      };
+
       pull.rebase = true;
       init.defaultBranch = "main";
       github.user = "lucass4";
@@ -19,6 +28,27 @@
       diff.tool = "delta";
 
       push.autoSetupRemote = true;
+      push.default = "current";
+      push.followTags = true;
+
+      merge.conflictStyle = "zdiff3";
+
+      fetch.prune = true;
+      fetch.pruneTags = true;
+
+      rebase.autoSquash = true;
+      rebase.autoStash = true;
+
+      branch.sort = "-committerdate";
+
+      rerere.enabled = true;
+
+      maintenance.auto = true;
+
+      help.autocorrect = "prompt";
+
+      column.ui = "auto";
+      log.date = "relative";
 
       core.editor = "hx";
       core.pager = "${pkgs.delta}/bin/delta";

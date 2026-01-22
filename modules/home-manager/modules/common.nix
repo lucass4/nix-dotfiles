@@ -1,98 +1,136 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }:
+let
+  # Modern CLI replacements
+  cliTools = with pkgs; [
+    dust # Better du
+    neofetch # Fancy system + hardware info
+    tealdeer # Fast tldr
+    fd # Replacement for find
+    trash-cli # A better rm tool
+  ];
 
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
+  # Shells and terminal utilities
+  shellTools = with pkgs; [
+    bash
+    zsh
+    reattach-to-user-namespace
+  ];
 
-  home.packages = with pkgs;
-    [
-      # Shells and terminal utilities
-      bash
-      zsh
-      reattach-to-user-namespace
+  # File navigation and network tools
+  fileAndNetTools = with pkgs; [
+    tree
+    httpstat
+    curlie
+    wget
+    speedtest-cli
+    cloc
+  ];
 
-      # Command replacements
-      dust # Better du
-      eza # Better ls
-      neofetch # Fancy system + hardware info
-      tealdeer # Fast tldr
-      ripgrep # Replacement for grep
-      fd # Replacement for find
-      bat # Replacement for cat
-      trash-cli # A better rm tool
-      zoxide # Better jump, written in Rust
+  # Compression tools
+  compressionTools = with pkgs; [
+    zip
+    pigz
+    lz4
+  ];
 
-      # Git and version control tools
-      git
-      gh
-      lazygit
-      scooter
-      git-crypt
-      git-lfs
-      hub
-      cachix
+  # Git tools (git and gh are configured in git.nix)
+  gitTools = with pkgs; [
+    lazygit
+    scooter
+    git-crypt
+    git-lfs
+    hub
+    cachix
+  ];
 
-      # File navigation and network tools
-      fzf
-      tree
-      httpstat
-      curlie
-      wget
-      speedtest-cli
-      cloc
+  # Fonts
+  fonts = with pkgs; [
+    powerline-fonts
+  ];
 
-      # Compression tools
-      zip
-      pigz
-      lz4
+  # Parsing and text manipulation
+  dataTools = with pkgs; [
+    jc
+  ];
 
-      # Kubernetes and Docker tools
-      kubectx
-      kubectl
-      krew
-      kubernetes-helm
-      kyverno
-      colima
-      docker-client
+  # Productivity tools
+  productivityTools = with pkgs; [
+    page
+    gnupg
+    graphviz
+    watch
+    silver-searcher
+    taskwarrior3
+    taskwarrior-tui
+  ];
 
-      # Fonts
-      powerline-fonts
+  # Platform-specific packages
+  darwinPackages = lib.optionals pkgs.stdenv.isDarwin [
+    pkgs.coreutils # provides `dd` with --status=progress
+  ];
+in
+{
+  # Program configurations
+  programs = {
+    # Direnv for automatic environment loading
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
 
-      # Parsing and text manipulation
-      jc
-      # GHA local exec
-      act
+    # Directory colors
+    dircolors.enable = true;
 
-      # Database and productivity tools
-      #pgcli
-      page
-      gnupg
-      graphviz
-      watch
-      awscli2
-      silver-searcher
-      asdf-vm
-      taskwarrior3
-      taskwarrior-tui
+    # Bat - better cat
+    bat = {
+      enable = true;
+      config = {
+        theme = "TwoDark";
+        pager = "less -FR";
+      };
+    };
 
-      # Security and searching
-      trufflehog
-      sops
-    ] ++ lib.optionals stdenv.isDarwin [
-      coreutils # provides `dd` with --status=progress
-    ];
+    # Eza - better ls
+    eza = {
+      enable = true;
+      enableZshIntegration = true;
+      git = true;
+      icons = "auto";
+    };
 
-  programs.dircolors = { enable = true; };
+    # Ripgrep - better grep
+    ripgrep = {
+      enable = true;
+      arguments = [
+        "--max-columns=150"
+        "--max-columns-preview"
+        "--smart-case"
+      ];
+    };
 
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-    enableNushellIntegration = false;
+    # Zoxide - smart directory jumper
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    # FZF - fuzzy finder
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      defaultCommand = "fd --type f --hidden --exclude .git";
+      fileWidgetCommand = "fd --type f"; # for when ctrl-t is pressed
+    };
   };
 
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-    defaultCommand = "fd --type f --hidden --exclude .git";
-    fileWidgetCommand = "fd --type f"; # for when ctrl-t is pressed
-  };
+  # All packages
+  home.packages = cliTools
+    ++ shellTools
+    ++ fileAndNetTools
+    ++ compressionTools
+    ++ gitTools
+    ++ fonts
+    ++ dataTools
+    ++ productivityTools
+    ++ darwinPackages;
 }

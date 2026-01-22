@@ -1,12 +1,19 @@
 { lib, manual, config, pkgs, ... }: {
   imports = [
-    ./modules/wezterm.nix
-    ./modules/zsh.nix
+    # Core modules
     ./modules/common.nix
     ./modules/git.nix
+    ./modules/kubernetes.nix
+    ./modules/development.nix
+
+    # Terminal and editors
+    ./modules/wezterm.nix
+    ./modules/zsh.nix
     ./modules/helix.nix
     ./modules/tmux.nix
     ./modules/yazi.nix
+
+    # Language support
     ./modules/languages/docker.nix
     ./modules/languages/go.nix
     ./modules/languages/lua.nix
