@@ -1,3 +1,3 @@
 { pkgs, ... }: {
-  home.packages = with pkgs; [ nil nixfmt-classic nixpkgs-fmt ];
+  home.packages = with pkgs; [ nil nixfmt nixpkgs-fmt ];
 }

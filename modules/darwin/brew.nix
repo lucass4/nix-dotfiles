@@ -32,15 +32,12 @@
     casks = [
       "gpg-suite"
       "swiftdefaultappsprefpane"
-      "default-folder-x"
       "firefox"
       "discord"
       "font-fira-code"
       "1password"
       "spotify"
       "raycast"
-      "alacritty"
-      "arc"
       "diffmerge"
       "visual-studio-code"
     ];
