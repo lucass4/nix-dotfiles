@@ -1,5 +1,5 @@
 # Home Manager configuration entry point
-{ lib, config, pkgs, ... }:
+{ ... }:
 {
   imports = [
     # Core modules

@@ -1,1 +1,1 @@
-{ config, lib, pkgs, ... }: { home.packages = with pkgs; [ shfmt ]; }
+{ pkgs, ... }: { home.packages = with pkgs; [ shfmt ]; }

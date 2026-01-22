@@ -1,5 +1,5 @@
 # Core nix-darwin system configuration
-{ inputs, config, pkgs, ... }:
+{ pkgs, ... }:
 {
   programs.zsh.enable = true;
   environment = {

@@ -1,1 +1,1 @@
-{ config, lib, pkgs, ... }: { home.packages = with pkgs; [ hadolint ]; }
+{ pkgs, ... }: { home.packages = with pkgs; [ hadolint ]; }

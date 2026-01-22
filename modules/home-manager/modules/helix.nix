@@ -21,7 +21,7 @@ in
     package = helixPkg;
 
     # The catppuccin-mocha theme, provided by the helix-themes flake
-    themes = inputs.helix-themes.outputs.themes;
+    inherit (inputs.helix-themes.outputs) themes;
 
     settings = {
       theme = "catppuccin_mocha";
@@ -133,9 +133,11 @@ in
             "file-type"
           ];
           separator = " ";
-          mode.normal = "NORMAL";
-          mode.insert = "INSERT";
-          mode.select = "SELECT";
+          mode = {
+            normal = "NORMAL";
+            insert = "INSERT";
+            select = "SELECT";
+          };
         };
 
         auto-pairs = true;
