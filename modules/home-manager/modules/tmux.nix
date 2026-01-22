@@ -13,6 +13,7 @@
       extrakto
       nord
       resurrect
+      continuum
       prefix-highlight
       tmux-fzf
       vim-tmux-navigator
@@ -20,6 +21,10 @@
 
     extraConfig = ''
       TMUX_FZF_LAUNCH_KEY="C-f"
+
+      # Session persistence settings
+      set -g @continuum-restore 'on'           # automatically restore sessions on tmux start
+      set -g @continuum-save-interval '15'     # save session every 15 minutes
 
       set -g detach-on-destroy off             # When destory switch to the prev session
       set -ga terminal-overrides ",xterm-256color:Tc"
