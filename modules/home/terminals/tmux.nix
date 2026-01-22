@@ -21,6 +21,8 @@
       sensible # Better defaults
       yank # Enhanced copy/paste
       catppuccin # Match Helix theme
+      cpu # CPU status module
+      battery # Battery status module
       copycat # Regex searches
       extrakto # Fuzzy text extraction
       resurrect # Session restoration
@@ -43,6 +45,20 @@
 
       # Catppuccin theme customization
       set -g @catppuccin_flavour 'mocha'       # Match Helix theme
+      set -g @catppuccin_window_status_style "rounded"
+
+      # Status bar layout using Catppuccin modules
+      set -g status-left-length 100
+      set -g status-right-length 100
+      set -g status-left ""
+      set -g status-right "#{E:@catppuccin_status_application}"
+      set -agF status-right "#{E:@catppuccin_status_cpu}"
+      set -ag status-right "#{E:@catppuccin_status_session}"
+      set -ag status-right "#{E:@catppuccin_status_uptime}"
+      set -agF status-right "#{E:@catppuccin_status_battery}"
+      # Re-run status helpers after composing the line so placeholders expand
+      run-shell "${pkgs.tmuxPlugins.cpu}/share/tmux-plugins/cpu/cpu.tmux"
+      run-shell "${pkgs.tmuxPlugins.battery}/share/tmux-plugins/battery/battery.tmux"
 
       # ── General Settings ──────────────────────────────────────────────────────
 
@@ -51,8 +67,6 @@
       set -g status on                         # Enable status bar
       set -g status-interval 30                # Update status bar every 30 seconds
       set -g display-time 800                  # Display messages for 800ms
-      set -g status-left-length 50             # Status bar left length
-      set -g status-right-length 50            # Status bar right length
       set -g focus-events on                   # Enable focus events for better editor integration
       setw -g xterm-keys on                    # Enable xterm keys
 
@@ -132,4 +146,3 @@
     '';
   };
 }
-
