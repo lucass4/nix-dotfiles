@@ -1,13 +1,24 @@
 # Agent Guide
 
 - **Project:** Nix flake for macOS dotfiles using nix-darwin + Home Manager. Hosts live in `flake.nix` (`x86_64-darwin` / `aarch64-darwin`), user `lucas`, home `/Users/lucas`.
-- **Layout:** `modules/darwin` (system prefs, Homebrew taps/casks/brews, core nix settings); `modules/home-manager` plus `modules/home-manager/modules` for apps (`zsh.nix`, `git.nix`, `helix.nix`, `tmux.nix`, `wezterm.nix`, `yazi.nix`, `languages/*.nix`).
+- **Layout:** Following Nix community best practices with clear separation of concerns:
+  - `modules/darwin/` - nix-darwin configuration organized by concern:
+    - `core/` - Nix daemon settings (`nix.nix`), environment config (`environment.nix`), users (`users.nix`)
+    - `system/` - macOS system defaults (`defaults.nix`), ID management (`ids.nix`)
+    - `apps/` - Application-specific configs (e.g., `firefox.nix`)
+    - `homebrew.nix` - Homebrew taps/casks/brews management
+  - `modules/home/` - Home Manager configuration organized by function:
+    - `shell/` - Shell configs (`zsh.nix`)
+    - `editors/` - Editor configs (`helix.nix`)
+    - `terminals/` - Terminal emulators (`wezterm.nix`, `tmux.nix`)
+    - `cli/` - CLI tools (`common.nix`, `git.nix`, `yazi.nix`)
+    - `dev/` - Development environments (`base.nix`, `kubernetes.nix`, language-specific: `go.nix`, `rust.nix`, `python.nix`, `node.nix`, `docker.nix`, `terraform.nix`, `nix.nix`, `bash.nix`, `lua.nix`, `markup.nix`)
 - **Build/apply:** `make build` or `make switchx` → `darwin-rebuild switch --flake .#$(hostname -s)` (sudo). `make update` also runs `nix flake update` and Homebrew upgrades. `make check-updates` runs `nix flake check` and darwin build. Run `nix flake check` before pushing.
-- **Tools:** Default shell zsh with oh-my-zsh plugins (`sudo`, `vim-interaction`, `fzf`, `vi-mode`, `zoxide`) and aliases (`vim/vi -> hx`, git shortcuts, eza/rg/fd, trash). WezTerm launches tmux session `main` (prefix `C-a`, vi mode, resurrect/tmux-fzf). Editor: Helix (Catppuccin Mocha) with LSP/formatters for Rust, Go, Python, JS/TS/HTML/CSS, Nix, Bash, Terraform, Docker, YAML. File manager: Yazi with zsh integration.
-- **Git/GitHub:** See `modules/home-manager/modules/git.nix`: delta pager/difftool (side-by-side, line numbers), patience diff, signed commits/tags with GPG `56AE81F1E53DC9DC`, SSH URLs (`git@github.com:`), `http.sslVerify = true`, gh CLI uses SSH, editor `hx`, pager delta.
-- **Homebrew:** Managed in `modules/darwin/brew.nix`. Taps cover k8s/cloud/security. Casks: Alacritty, Raycast, VS Code, Arc, 1Password, Discord, Spotify, GPG Suite, etc. Brews: dev deps (go, node, openjdk, neovim, pre-commit, just, tree-sitter, lua stack), infra tools (kubectl/kustomize/eksctl/vcluster/argocd), utilities (trivy, granted, copier, gemini-cli, skopeo).
-- **Style:** Keep Nix modules small/composable; follow existing patterns and use `pkgs.<pkg>`. Avoid hardcoding paths outside `$HOME` unless already present (e.g., `/opt/homebrew/bin` in darwin module). Default editor/terminal stack is Helix + WezTerm + tmux.
+- **Tools:** Default shell zsh (`modules/home/shell/zsh.nix`) with oh-my-zsh plugins (`sudo`, `vim-interaction`, `fzf`, `vi-mode`, `zoxide`, `git`, `extract`, `command-not-found`), custom plugins (zsh-nix-shell, just-completions), and aliases using modern CLI tools (eza for ls, rg for grep, fd for find, trash for rm, dust for du). WezTerm (`modules/home/terminals/wezterm.nix`) launches tmux session `main` (prefix `C-a`, vi mode, resurrect/tmux-fzf). Editor: Helix (`modules/home/editors/helix.nix`, Catppuccin Mocha) with LSP/formatters for Rust, Go, Python, JS/TS/HTML/CSS, Nix, Bash, Terraform, Docker, YAML. File manager: Yazi (`modules/home/cli/yazi.nix`) with zsh integration.
+- **Git/GitHub:** See `modules/home/cli/git.nix`: delta pager/difftool (side-by-side, line numbers), patience diff, signed commits/tags with GPG `56AE81F1E53DC9DC`, SSH URLs (`git@github.com:`), `http.sslVerify = true`, gh CLI uses SSH, editor `hx`, pager delta.
+- **Homebrew:** Managed in `modules/darwin/homebrew.nix`. Taps cover k8s/cloud/security. Casks: GPG Suite, Firefox, Discord, 1Password, Spotify, Raycast, VS Code, etc. Brews: dev deps (go, node, openjdk, neovim, pre-commit, just, tree-sitter, lua stack), infra tools (kubectl/kustomize/eksctl/vcluster/argocd, eks-node-viewer), utilities (trivy, granted, copier, gemini-cli, skopeo, trippy).
+- **Style:** Keep Nix modules small/composable with single responsibility; follow existing categorization pattern (organize by function, not by technology). Use `pkgs.<pkg>` from nixpkgs. Avoid hardcoding paths outside `$HOME` unless already present (e.g., `/opt/homebrew/bin` in darwin modules). Default editor/terminal stack is Helix + WezTerm + tmux. When adding new modules, place them in the appropriate category directory.
 - **Testing:** For module edits run `nix flake check`. For activation tests run `make build` (or `darwin-rebuild switch --flake .#$(hostname -s)`). For Homebrew changes ensure taps/casks/brews resolve. Helix keybinds depend on `scooter`, `lazygit`, `yazi`.
 - **Security:** Never commit secrets. Git signing stays on. Keep SSH GitHub remotes and `http.sslVerify = true`. Respect `system.primaryUser = "lucas"` and `system.stateVersion = 4`. Homebrew actions may prompt for sudo when applied.
-- **PR/commit tips:** Describe scope by module (`hm/helix: ...`, `darwin/brew: ...`). Avoid touching `flake.lock` unless updating inputs on purpose. Keep diffs minimal and consistent. Note if a rebuild is required (almost always). Add nested `AGENTS.md` in subdirs if needed.
+- **PR/commit tips:** Describe scope by module path (`home/editors/helix: ...`, `darwin/homebrew: ...`, `home/dev/rust: ...`). Avoid touching `flake.lock` unless updating inputs on purpose. Keep diffs minimal and consistent. Note if a rebuild is required (almost always). When refactoring, test builds before committing.
 - **Package additions:** When adding software, check nixpkgs first; if missing, try adding a flake input; only fall back to Homebrew if nix options fail.
