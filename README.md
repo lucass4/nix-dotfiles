@@ -1,50 +1,67 @@
-# My Dotfiles
+# dotfiles
 
-[![NixOS](https://img.shields.io/badge/NixOS-unstable-5277C3.svg?style=flat-square&logo=nixos)](https://nixos.org)
-[![Home Manager](https://img.shields.io/badge/Home%20Manager-unstable-5277C3.svg?style=flat-square&logo=homemanager)](https://github.com/nix-community/home-manager)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+My macOS configuration managed with Nix. After setting up too many machines manually, I finally bit the bullet and made everything declarative.
 
-These are my personal dotfiles, managed with Nix and Home Manager. They are designed to be modular, reproducible, and easy to customize.
+## What's in here
 
-## Features
+- **nix-darwin** for macOS system config
+- **Home Manager** for dotfiles and user packages
+- **Helix** as my editor (with LSPs for Go, Rust, Python, JS/TS, Terraform, etc.)
+- **WezTerm** + tmux for terminal stuff
+- **Delta** for nice git diffs
+- **Zsh** with starship prompt
+- Kubernetes/Docker tooling
+- A justfile with commands I actually remember
 
-- **Declarative:** The entire system is configured declaratively with Nix.
-- **Reproducible:** The `flake.lock` file ensures that the same versions of all packages are used every time.
-- **Modular:** The configuration is split into modules, making it easy to add or remove functionality.
-- **Cross-platform:** The dotfiles are designed to work on both Linux and macOS.
-
-## Installation
-
-1.  Install [Nix](https://nixos.org/download.html).
-2.  Clone this repository to `~/.dotfiles`.
-3.  Run `make setup` to install Homebrew and Nix.
+## Setup
 
 ```bash
-make setup
+git clone https://github.com/lucass4/dotfiles ~/.config/nixpkgs
+cd ~/.config/nixpkgs
+
+# First time
+just setup
+
+# Apply config
+just switch
+
+# See what else you can do
+just help
 ```
-
-## Usage
-
-After the initial setup, you can use the `Makefile` to manage your dotfiles:
-
-*   `make setup`: Installs Homebrew and Nix (if not already present).
-*   `make build`: Applies your Nix configuration using `darwin-rebuild switch`. This command automatically determines your hostname to apply the correct configuration.
-*   `make clean`: Removes the `result` symlink created by Nix builds.
 
 ## Structure
 
-The project is structured as follows:
+```
+flake.nix                  # Main flake config
+justfile                   # Commands for common tasks
+modules/
+  darwin/                  # macOS system settings
+  home-manager/            # User environment
+    modules/               # Program configs
+    languages/             # Language-specific stuff
+hosts/                     # Machine-specific overrides
+```
 
-- `flake.nix`: The main entry point for the dotfiles.
-- `Makefile`: Contains commands for setup, building, and cleaning the configuration.
-- `modules/`: Contains the configuration modules.
-  - `darwin/`: Modules specific to macOS.
-  - `home-manager/`: Home Manager modules for user-level configuration.
+## Why Nix?
 
-## Contributing
+I got tired of:
+- Reinstalling everything when getting a new machine
+- Forgetting which packages I actually need
+- Config drift between my work and personal laptops
+- Homebrew randomly breaking things on updates
 
-Contributions are welcome! Please open an issue or a pull request if you have any suggestions or improvements.
+Now it's all in git and reproducible. New machine setup takes one command instead of a day.
 
-## License
+## Some highlights
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+- Git diffs don't suck anymore (thanks Delta)
+- Helix is fast and the vim bindings are pretty good
+- All LSPs configured and working
+- K8s tools ready to go
+- No more "it works on my machine" between computers
+
+## Notes
+
+This is tuned for my workflow but feel free to steal whatever's useful. The flake-parts structure makes it easy to add/remove modules.
+
+Built while procrastinating on actual work.

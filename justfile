@@ -138,7 +138,7 @@ check-updates:
     darwin-rebuild build --flake .#{{hostname}}
     @echo ""
     @echo "📊 System diff:"
-    nix store diff-closures /nix/var/nix/profiles/system result
+    nix store diff-closures /nix/var/nix/profiles/system ./result
     @echo ""
     @echo "🍺 Homebrew updates:"
     {{brew_prefix}}/brew update >& /dev/null && {{brew_prefix}}/brew upgrade -n -g

@@ -40,22 +40,23 @@
 
       # Flake-wide configuration
       flake = {
-        # Define hosts and their architectures
-        hosts = {
-          "lucass-MacBook-Pro" = {
-            system = "x86_64-darwin";
-            username = "lucas";
-          };
-          "fg-lstanaanna" = {
-            system = "aarch64-darwin";
-            username = "lucas";
-          };
-        };
-
         # Darwin system configurations
         darwinConfigurations =
           let
             inherit (inputs.nixpkgs) lib;
+
+            # Define hosts and their architectures
+            hosts = {
+              "lucass-MacBook-Pro" = {
+                system = "x86_64-darwin";
+                username = "lucas";
+              };
+              "fg-lstanaanna" = {
+                system = "aarch64-darwin";
+                username = "lucas";
+              };
+            };
+
             mkDarwinSystem = hostName: { system, username }:
               let
                 # Check if host-specific config exists
@@ -99,7 +100,7 @@
                 ++ lib.optional hasHostConfig hostConfigPath;
               };
           in
-          lib.mapAttrs mkDarwinSystem self.hosts;
+          lib.mapAttrs mkDarwinSystem hosts;
       };
 
       # Per-system configuration
