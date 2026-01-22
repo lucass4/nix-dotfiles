@@ -25,6 +25,7 @@
       battery # Battery status module
       copycat # Regex searches
       extrakto # Fuzzy text extraction
+      fzf-tmux-url # Fuzzy-find and open URLs from panes
       resurrect # Session restoration
       continuum # Automatic session saving
       prefix-highlight # Show prefix key
@@ -38,6 +39,9 @@
 
       # tmux-fzf settings
       TMUX_FZF_LAUNCH_KEY="C-f"
+
+      # tmux-fzf-url settings
+      set -g @fzf-url-bind "u"                # Prefix+u to browse URLs in the session
 
       # Continuum - session persistence
       set -g @continuum-restore 'on'           # Auto-restore sessions on tmux start
@@ -53,6 +57,7 @@
       set -g status-left ""
       set -g status-right "#{E:@catppuccin_status_application}"
       set -agF status-right "#{E:@catppuccin_status_cpu}"
+      set -agF status-right "#{@catppuccin_status_gitmux}"
       set -ag status-right "#{E:@catppuccin_status_session}"
       set -ag status-right "#{E:@catppuccin_status_uptime}"
       set -agF status-right "#{E:@catppuccin_status_battery}"
@@ -145,4 +150,23 @@
       bind g display-popup -E -w 90% -h 90% -d "#{pane_current_path}" lazygit
     '';
   };
+
+  # Gitmux configuration themed for Catppuccin (used by @catppuccin_status_gitmux)
+  home.file.".gitmux.conf".text = ''
+    tmux:
+      styles:
+        clear: "#[fg=#{@thm_fg}]"
+        state: "#[fg=#{@thm_red},bold]"
+        branch: "#[fg=#{@thm_fg},bold]"
+        remote: "#[fg=#{@thm_teal}]"
+        divergence: "#[fg=#{@thm_fg}]"
+        staged: "#[fg=#{@thm_green},bold]"
+        conflict: "#[fg=#{@thm_red},bold]"
+        modified: "#[fg=#{@thm_yellow},bold]"
+        untracked: "#[fg=#{@thm_mauve},bold]"
+        stashed: "#[fg=#{@thm_blue},bold]"
+        clean: "#[fg=#{@thm_rosewater},bold]"
+        insertions: "#[fg=#{@thm_green}]"
+        deletions: "#[fg=#{@thm_red}]"
+  '';
 }

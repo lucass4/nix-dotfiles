@@ -42,6 +42,7 @@ let
     git-lfs
     hub
     cachix
+    gitmux
   ];
 
   # Fonts
