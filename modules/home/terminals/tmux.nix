@@ -67,6 +67,7 @@
       set -g status on                         # Enable status bar
       set -g status-interval 30                # Update status bar every 30 seconds
       set -g display-time 800                  # Display messages for 800ms
+      set -g mouse on                          # Enable mouse for pane selection/resize and scrollback
       setw -g xterm-keys on                    # Enable xterm keys
 
       # Terminal settings
