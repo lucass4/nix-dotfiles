@@ -108,6 +108,70 @@
         [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
         rm -f -- "$tmp"
       }
+
+      # Auto-notification for long-running commands
+      # Notify when commands take longer than 30 seconds
+      AUTO_NOTIFY_THRESHOLD=30  # seconds
+      AUTO_NOTIFY_IGNORE=("vim" "nvim" "hx" "helix" "tmux" "ssh" "top" "htop" "btm" "k9s" "lazydocker" "lazygit" "yazi")
+
+      __auto_notify_preexec() {
+        __auto_notify_start_time=$SECONDS
+        __auto_notify_command=$1
+      }
+
+      __auto_notify_precmd() {
+        local exit_code=$?
+        if [ -n "$__auto_notify_start_time" ]; then
+          local elapsed=$((SECONDS - __auto_notify_start_time))
+
+          if [ $elapsed -ge $AUTO_NOTIFY_THRESHOLD ]; then
+            # Extract the base command name
+            local cmd_name=$(echo "$__auto_notify_command" | awk '{print $1}' | xargs basename)
+
+            # Check if command should be ignored
+            local should_ignore=0
+            for ignore_cmd in "''${AUTO_NOTIFY_IGNORE[@]}"; do
+              if [[ "$cmd_name" == "$ignore_cmd" ]]; then
+                should_ignore=1
+                break
+              fi
+            done
+
+            if [ $should_ignore -eq 0 ]; then
+              local message
+              if [ $exit_code -eq 0 ]; then
+                message="✓ Command finished (''${elapsed}s): $cmd_name"
+              else
+                message="✗ Command failed (''${elapsed}s, exit $exit_code): $cmd_name"
+              fi
+
+              terminal-notifier -title "Terminal" -message "$message" -group auto-notify -sound default
+            fi
+          fi
+
+          unset __auto_notify_start_time
+          unset __auto_notify_command
+        fi
+      }
+
+      # Register hooks
+      autoload -Uz add-zsh-hook
+      add-zsh-hook preexec __auto_notify_preexec
+      add-zsh-hook precmd __auto_notify_precmd
+
+      # Manual notify function - send macOS notification when command completes
+      # Usage: some-long-command; notify "Build finished"
+      function notify() {
+        local exit_code=$?
+        local message="''${1:-Command finished}"
+        local title="Terminal"
+
+        if [ $exit_code -eq 0 ]; then
+          terminal-notifier -title "$title" -message "✓ $message" -group terminal-notify -sound default
+        else
+          terminal-notifier -title "$title" -message "✗ $message (exit $exit_code)" -group terminal-notify -sound default
+        fi
+      }
     '';
 
     # Session variables

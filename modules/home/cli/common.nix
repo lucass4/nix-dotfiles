@@ -10,6 +10,7 @@ let
     trash-cli # A better rm tool
     glow # Terminal markdown renderer
     bottom # Modern system monitor (btm command)
+    terminal-notifier # macOS notifications for scripts and tmux
   ];
 
   # Shells and terminal utilities

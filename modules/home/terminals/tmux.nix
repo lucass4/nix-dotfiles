@@ -70,6 +70,22 @@
       set -g mouse on                          # Enable mouse for pane selection/resize and scrollback
       setw -g xterm-keys on                    # Enable xterm keys
 
+      # ── Notifications ─────────────────────────────────────────────────────────
+
+      # Monitor activity in other windows
+      setw -g monitor-activity on              # Highlight windows with activity
+      set -g visual-activity off               # Don't show tmux message (we'll use system notifications)
+
+      # Bell notifications
+      set -g bell-action any                   # Monitor bells in all windows
+      set -g visual-bell off                   # Don't show visual bell (we'll use system notifications)
+
+      # Send macOS notification on activity in monitored windows
+      set-hook -g alert-activity 'run-shell "terminal-notifier -title \"tmux: #{session_name}\" -subtitle \"Activity in window ##I\" -message \"#{window_name}\" -group tmux-activity > /dev/null 2>&1 || true"'
+
+      # Send macOS notification on bell
+      set-hook -g alert-bell 'run-shell "terminal-notifier -title \"tmux: #{session_name}\" -subtitle \"Alert in window ##I\" -message \"#{window_name}\" -group tmux-bell > /dev/null 2>&1 || true"'
+
       # Terminal settings
       set -g default-shell $SHELL
       set-option -sa terminal-overrides ",xterm*:Tc"
