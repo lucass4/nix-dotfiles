@@ -15,8 +15,26 @@
       search_mode = "fuzzy";
       filter_mode_shell_up_key_binding = "directory";
       style = "compact";
+      # Reference the Catppuccin theme
+      theme.name = "catppuccin-mocha-mauve";
     };
   };
+
+  # Atuin Catppuccin Mocha Mauve theme file
+  home.file.".config/atuin/themes/catppuccin-mocha-mauve.toml".text = ''
+    [theme]
+    name = "catppuccin-mocha-mauve"
+
+    [colors]
+    AlertInfo = "#a6e3a1"
+    AlertWarn = "#fab387"
+    AlertError = "#f38ba8"
+    Annotation = "#cba6f7"
+    Base = "#cdd6f4"
+    Guidance = "#9399b2"
+    Important = "#f38ba8"
+    Title = "#cba6f7"
+  '';
 
   # Enable Starship prompt and Zsh integration
   programs.starship = {
