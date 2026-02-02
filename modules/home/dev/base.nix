@@ -5,8 +5,8 @@
     # GitHub Actions local execution
     act
 
-    # Runtime version manager
-    asdf-vm
+    # Runtime version manager (modern replacement for asdf)
+    mise
 
     # Cloud tools
     awscli2

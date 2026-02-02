@@ -8,6 +8,8 @@ let
     tealdeer # Fast tldr
     fd # Replacement for find
     trash-cli # A better rm tool
+    glow # Terminal markdown renderer
+    bottom # Modern system monitor (btm command)
   ];
 
   # Shells and terminal utilities

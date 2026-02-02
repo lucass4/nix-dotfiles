@@ -6,6 +6,7 @@
     kubectl
     kubectx
     krew # kubectl plugin manager
+    k9s # Kubernetes TUI
 
     # Helm - Kubernetes package manager
     kubernetes-helm

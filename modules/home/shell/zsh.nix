@@ -1,6 +1,23 @@
 # Zsh shell configuration with plugins and aliases
 { config, lib, pkgs, ... }:
 {
+  # Atuin - shell history with sync and search
+  programs.atuin = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      # Bind to Ctrl+R for fuzzy history search
+      ctrl_n_shortcuts = true;
+      # Sync settings (optional - requires account at atuin.sh)
+      auto_sync = false;
+      sync_frequency = "0";
+      # Search settings
+      search_mode = "fuzzy";
+      filter_mode_shell_up_key_binding = "directory";
+      style = "compact";
+    };
+  };
+
   # Enable Starship prompt and Zsh integration
   programs.starship = {
     enable = true;
@@ -136,6 +153,7 @@
       fd = "\\fd -H -t d"; # Default search directories
       f = "\\fd -H"; # Search this dir for files, ignoring .gitignore
       grep = "rg"; # Use ripgrep for search
+      cat = "bat"; # Use bat instead of cat
       rm = "trash"; # Use trash instead of rm
       du = "dust"; # Use dust instead of du
       rpassword = "tr -dc A-Za-z0-9 </dev/urandom | head -c 20 |  pbcopy";
