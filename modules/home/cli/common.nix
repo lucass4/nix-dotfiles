@@ -48,6 +48,7 @@ let
   # Fonts
   fonts = with pkgs; [
     powerline-fonts
+    nerd-fonts.fira-code
   ];
 
   # Parsing and text manipulation
@@ -87,8 +88,19 @@ in
     bat = {
       enable = true;
       config = {
-        theme = "TwoDark";
+        theme = "Catppuccin Mocha";
         pager = "less -FR";
+      };
+      themes = {
+        "Catppuccin Mocha" = {
+          src = pkgs.fetchFromGitHub {
+            owner = "catppuccin";
+            repo = "bat";
+            rev = "d3feec47b16a8e99eabb34cdfbaa115541d374fc";
+            sha256 = "sha256-s0CHTihXlBMCKmbBBb8dUhfgOOQu9PBCQ+uviy7o47w=";
+          };
+          file = "themes/Catppuccin Mocha.tmTheme";
+        };
       };
     };
 
@@ -122,6 +134,22 @@ in
       enableZshIntegration = true;
       defaultCommand = "fd --type f --hidden --exclude .git";
       fileWidgetCommand = "fd --type f"; # for when ctrl-t is pressed
+
+      # Catppuccin Mocha theme
+      colors = {
+        bg = "#1e1e2e";
+        "bg+" = "#313244";
+        fg = "#cdd6f4";
+        "fg+" = "#cdd6f4";
+        header = "#f38ba8";
+        hl = "#f9e2af";
+        "hl+" = "#f9e2af";
+        info = "#cba6f7";
+        marker = "#f5e0dc";
+        pointer = "#f5e0dc";
+        prompt = "#cba6f7";
+        spinner = "#f5e0dc";
+      };
     };
   };
 

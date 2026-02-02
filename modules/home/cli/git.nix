@@ -97,7 +97,7 @@
       enable = true;
       options = {
         # Appearance
-        syntax-theme = "Monokai Extended";
+        syntax-theme = "Catppuccin Mocha";
 
         # Disable features that might cause issues
         features = "decorations";

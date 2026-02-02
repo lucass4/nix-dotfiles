@@ -1,10 +1,10 @@
 { pkgs, ... }:
 let
-  catppuccinMacchiato = pkgs.fetchFromGitHub {
-    owner = "yazi-rs";
-    repo = "flavors";
-    rev = "4a1802a5add0f867b08d5890780c10dd1f051c36";
-    sha256 = "1k0ricziqap8l3l3f9wbzybdgmmd2472f7kvz7al5grxp3n7vca6";
+  catppuccinTheme = pkgs.fetchFromGitHub {
+    owner = "catppuccin";
+    repo = "yazi";
+    rev = "fc69d6472d29b823c4980d23186c9c120a0ad32c";
+    sha256 = "sha256-Og33IGS9pTim6LEH33CO102wpGnPomiperFbqfgrJjw=";
   };
 in
 {
@@ -13,13 +13,30 @@ in
     enableZshIntegration = true;
   };
 
-  xdg.configFile."yazi/theme.toml".text = ''
-    [flavor]
-    dark = "catppuccin-macchiato"
+  # Install Catppuccin Mocha theme with blue accent
+  xdg.configFile."yazi/theme.toml".source = "${catppuccinTheme}/themes/mocha/catppuccin-mocha-blue.toml";
+
+  # Main yazi configuration
+  xdg.configFile."yazi/yazi.toml".text = ''
+    [manager]
+    show_hidden = false
+    sort_by = "natural"
+    sort_dir_first = true
+    linemode = "size"
+
+    [preview]
+    max_width = 1000
+    max_height = 1000
+    image_filter = "lanczos3"
+    image_quality = 90
   '';
 
-  xdg.configFile."yazi/flavors/catppuccin-macchiato.yazi" = {
-    source = "${catppuccinMacchiato}/catppuccin-macchiato.yazi";
-    recursive = true;
-  };
+  # Keybindings
+  xdg.configFile."yazi/keymap.toml".text = ''
+    [manager]
+    prepend_keymap = [
+      { on = [ "<C-f>" ], run = "plugin fzf", desc = "Fuzzy find files/directories" },
+      { on = [ "z" ], run = "plugin --sync zoxide", desc = "Jump to a directory using zoxide" },
+    ]
+  '';
 }
