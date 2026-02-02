@@ -166,6 +166,14 @@ in
           ":redraw"
           ":reload-all"
         ];
+        "space".r = [
+          ":reload"
+          ":redraw"
+        ];
+        "space".R = [
+          ":reload-all"
+          ":redraw"
+        ];
         "space".g = [
           ":write-all"
           ":insert-output lazygit >/dev/tty"
