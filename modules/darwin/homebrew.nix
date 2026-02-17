@@ -115,7 +115,7 @@
       # Additional utilities
       "bdw-gc"
       "ca-certificates"
-      "go" # Required by m1-terraform-provider-helper
+      "go@1.26" # Required by m1-terraform-provider-helper
       "jpeg-turbo"
       "trivy"
       "devspace"
