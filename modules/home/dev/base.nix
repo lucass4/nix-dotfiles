@@ -10,6 +10,7 @@
 
     # Cloud tools
     awscli2
+    ssm-session-manager-plugin # AWS Systems Manager Session Manager plugin
 
     # Security tools
     sops # Secrets management

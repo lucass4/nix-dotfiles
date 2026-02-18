@@ -209,7 +209,7 @@
       }
       {
         name = "just-completions";
-        src = pkgs.runCommand "just-completions" {} ''
+        src = pkgs.runCommand "just-completions" { } ''
           mkdir -p $out
           ${pkgs.just}/bin/just --completions zsh > $out/_just
         '';
