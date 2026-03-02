@@ -10,6 +10,7 @@
 
     # Terminal emulators
     ./terminals/wezterm.nix
+    ./terminals/ghostty.nix
     ./terminals/tmux.nix
 
     # CLI tools and utilities
