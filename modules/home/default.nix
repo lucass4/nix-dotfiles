@@ -9,7 +9,6 @@
     ./editors/helix.nix
 
     # Terminal emulators
-    ./terminals/wezterm.nix
     ./terminals/ghostty.nix
     ./terminals/tmux.nix
 

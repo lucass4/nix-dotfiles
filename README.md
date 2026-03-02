@@ -2,7 +2,7 @@
 
 A batteries-included macOS setup powered by Nix: **nix-darwin** for system configuration + **Home Manager** for your shell/editor/dev tooling.
 
-This repo is opinionated (terminal-first: WezTerm → tmux → Helix) but modular, so you can steal individual pieces or adopt the whole thing.
+This repo is opinionated (terminal-first: Ghostty → tmux → Helix) but modular, so you can steal individual pieces or adopt the whole thing.
 
 ## Why you might like this
 
@@ -38,7 +38,7 @@ nix develop -c just help
 
 ## Little details (the “why does this feel nice?” list)
 
-- **WezTerm auto-attaches to tmux** session `main`.
+- **Ghostty auto-attaches to tmux** session `main`.
 - **tmux is tuned for flow:** prefix `C-a`, huge scrollback, Catppuccin, fzf helpers, session restore.
 - **macOS defaults are set intentionally:** Caps Lock → Escape, fast key repeat, dark mode, Finder tweaks, predictable screenshot settings.
 
@@ -89,7 +89,7 @@ modules/
   home/                    # User config (Home Manager)
     shell/                 # zsh
     editors/               # helix
-    terminals/             # wezterm/tmux
+    terminals/             # ghostty/tmux
     cli/                   # common tools/git/yazi
     dev/                   # languages + infra tooling
 ```

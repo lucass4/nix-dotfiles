@@ -29,7 +29,7 @@ This repository provides a declarative, reproducible macOS environment with:
 - System-level configuration via nix-darwin
 - User environment and dotfiles via Home Manager
 - Homebrew package management (declarative)
-- Terminal-first workflow (WezTerm → tmux → Helix/zsh)
+- Terminal-first workflow (Ghostty → tmux → Helix/zsh)
 
 ---
 
@@ -115,7 +115,7 @@ dotfiles/
 │       │   └── helix.nix         # Helix editor + LSP setup
 │       │
 │       ├── terminals/     # Terminal emulators
-│       │   ├── wezterm.nix       # WezTerm configuration
+│       │   ├── ghostty.nix       # Ghostty configuration
 │       │   └── tmux.nix          # Tmux + plugins
 │       │
 │       ├── cli/           # Command-line tools
@@ -162,7 +162,7 @@ dotfiles/
 **Examples:**
 - Shell configuration (zsh, aliases, prompt)
 - Editor settings (Helix, neovim)
-- Terminal emulator config (WezTerm)
+- Terminal emulator config (Ghostty)
 - Git configuration
 - User-installed packages via Nix
 
@@ -943,7 +943,7 @@ home.packages = with pkgs; [
 - `home/dev` - Development environments (go, rust, python, etc.)
 - `home/editors` - Editor configs (helix)
 - `home/shell` - Shell config (zsh)
-- `home/terminals` - Terminal configs (wezterm, tmux)
+- `home/terminals` - Terminal configs (ghostty, tmux)
 - `darwin/core` - Core darwin settings (nix, users, environment)
 - `darwin/system` - macOS system defaults
 - `darwin/homebrew` - Homebrew packages
@@ -966,7 +966,7 @@ docs: update AGENTS.md with testing workflows
 ### File Naming Conventions
 
 - Module files: `<name>.nix` (lowercase, hyphenated)
-  - `git.nix`, `kubernetes.nix`, `wezterm.nix`
+  - `git.nix`, `kubernetes.nix`, `ghostty.nix`
 - Host files: `<hostname>.nix`
   - `lucass-MacBook-Pro.nix`, `fg-lstanaanna.nix`
 - Module entry points: `default.nix`
@@ -1057,7 +1057,7 @@ just update  # Updates flake + Homebrew + switches
 |----------|------|-----------------|
 | **Shell** | zsh + oh-my-zsh | `modules/home/shell/zsh.nix` |
 | **Editor** | Helix | `modules/home/editors/helix.nix` |
-| **Terminal** | WezTerm + tmux | `modules/home/terminals/` |
+| **Terminal** | Ghostty + tmux | `modules/home/terminals/` |
 | **File Manager** | Yazi | `modules/home/cli/yazi.nix` |
 | **Git** | git + delta + gh | `modules/home/cli/git.nix` |
 | **History** | Atuin (Ctrl+R) | `modules/home/shell/zsh.nix` |
