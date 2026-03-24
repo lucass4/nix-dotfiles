@@ -11,9 +11,6 @@
 
     #cleanup = "zap"; # Options: "zap", "uninstall", "none"
 
-    # Cask arguments
-    caskArgs.no_quarantine = true;
-
     # Homebrew taps (no changes here)
     taps = [
       "homebrew/bundle"
@@ -40,6 +37,9 @@
       "raycast"
       "diffmerge"
       "visual-studio-code"
+      "claude"
+      "obsidian"
+      "protonvpn"
     ];
 
     # Homebrew MAS apps (no changes here)
