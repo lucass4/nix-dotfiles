@@ -18,18 +18,8 @@
     ./cli/yazi.nix
 
     # Development environments
-    ./dev/base.nix
     ./dev/kubernetes.nix
-    ./dev/docker.nix
-    ./dev/go.nix
-    ./dev/lua.nix
-    ./dev/markup.nix
-    ./dev/node.nix
-    ./dev/python.nix
-    ./dev/rust.nix
-    ./dev/terraform.nix
-    ./dev/nix.nix
-    ./dev/bash.nix
+    ./dev/languages.nix
   ];
 
   home.stateVersion = "25.05";
@@ -61,7 +51,6 @@
     COLORTERM = "truecolor";
     FZF_CTRL_R_OPTS = "--sort --exact";
     BROWSER = "open -a Firefox";
-    TERMINAL = "alacritty";
     HOMEBREW_NO_AUTO_UPDATE = 1;
   };
 

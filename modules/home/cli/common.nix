@@ -1,93 +1,14 @@
 # Common CLI tools and modern replacements for standard Unix utilities
 { pkgs, lib, ... }:
-let
-  # Modern CLI replacements
-  cliTools = with pkgs; [
-    dust # Better du
-    neofetch # Fancy system + hardware info
-    tealdeer # Fast tldr
-    fd # Replacement for find
-    trash-cli # A better rm tool
-    glow # Terminal markdown renderer
-    bottom # Modern system monitor (btm command)
-    terminal-notifier # macOS notifications for scripts and tmux
-  ];
-
-  # Shells and terminal utilities
-  shellTools = with pkgs; [
-    bash
-    zsh
-    reattach-to-user-namespace
-  ];
-
-  # File navigation and network tools
-  fileAndNetTools = with pkgs; [
-    tree
-    httpstat
-    curlie
-    wget
-    speedtest-cli
-    cloc
-  ];
-
-  # Compression tools
-  compressionTools = with pkgs; [
-    zip
-    pigz
-    lz4
-  ];
-
-  # Git tools (git and gh are configured in git.nix)
-  gitTools = with pkgs; [
-    lazygit
-    scooter
-    git-crypt
-    git-lfs
-    hub
-    cachix
-    gitmux
-  ];
-
-  # Fonts
-  fonts = with pkgs; [
-    powerline-fonts
-    nerd-fonts.fira-code
-  ];
-
-  # Parsing and text manipulation
-  dataTools = with pkgs; [
-    jc
-  ];
-
-  # Productivity tools
-  productivityTools = with pkgs; [
-    page
-    gnupg
-    graphviz
-    watch
-    silver-searcher
-    taskwarrior3
-    taskwarrior-tui
-  ];
-
-  # Platform-specific packages
-  darwinPackages = lib.optionals pkgs.stdenv.isDarwin [
-    pkgs.coreutils # provides `dd` with --status=progress
-  ];
-in
 {
-  # Program configurations
   programs = {
-    # Direnv for automatic environment loading
     direnv = {
       enable = true;
       nix-direnv.enable = true;
     };
 
-    # Directory colors
     dircolors.enable = true;
 
-    # Bat - better cat
     bat = {
       enable = true;
       config = {
@@ -107,7 +28,6 @@ in
       };
     };
 
-    # Eza - better ls
     eza = {
       enable = true;
       enableZshIntegration = true;
@@ -115,7 +35,6 @@ in
       icons = "auto";
     };
 
-    # Ripgrep - better grep
     ripgrep = {
       enable = true;
       arguments = [
@@ -125,18 +44,17 @@ in
       ];
     };
 
-    # Zoxide - smart directory jumper
     zoxide = {
       enable = true;
       enableZshIntegration = true;
     };
 
-    # FZF - fuzzy finder
     fzf = {
       enable = true;
       enableZshIntegration = true;
       defaultCommand = "fd --type f --hidden --exclude .git";
-      fileWidgetCommand = "fd --type f"; # for when ctrl-t is pressed
+      fileWidget.command = "fd --type f";
+      historyWidget.command = ""; # Atuin owns Ctrl-R
 
       # Catppuccin Mocha theme
       colors = {
@@ -156,14 +74,42 @@ in
     };
   };
 
-  # All packages
-  home.packages = cliTools
-    ++ shellTools
-    ++ fileAndNetTools
-    ++ compressionTools
-    ++ gitTools
-    ++ fonts
-    ++ dataTools
-    ++ productivityTools
-    ++ darwinPackages;
+  home.packages = with pkgs; [
+    dust
+    fastfetch
+    tealdeer
+    fd
+    trash-cli
+    glow
+    bottom
+    terminal-notifier
+    reattach-to-user-namespace
+    tree
+    httpstat
+    curlie
+    wget
+    speedtest-cli
+    cloc
+    zip
+    pigz
+    lz4
+    lazygit
+    scooter
+    git-crypt
+    git-lfs
+    cachix
+    gitmux
+    nerd-fonts.fira-code
+    jc
+    page
+    gnupg
+    graphviz
+    d2
+    watch
+    silver-searcher-ng
+    taskwarrior3
+    taskwarrior-tui
+  ] ++ lib.optionals pkgs.stdenv.isDarwin [
+    coreutils # provides `dd` with --status=progress
+  ];
 }

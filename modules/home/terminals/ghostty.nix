@@ -1,16 +1,7 @@
 { pkgs, ... }:
-let
-  # Wrapper script to launch zsh with tmux (matches WezTerm behavior)
-  ghosttyShell = pkgs.writeShellScriptBin "ghostty-shell" ''
-    exec ${pkgs.zsh}/bin/zsh -lc "${pkgs.tmux}/bin/tmux new-session -A -s main"
-  '';
-in
 {
   # Install Ghostty (using precompiled binary for faster installs)
-  home.packages = with pkgs; [
-    ghostty-bin
-    ghosttyShell
-  ];
+  home.packages = [ pkgs.ghostty-bin ];
 
   # Ghostty configuration
   xdg.configFile."ghostty/config".text = ''
@@ -34,9 +25,6 @@ in
     font-feature = +ss03
     font-feature = +ss05
 
-    # ── Window Appearance ─────────────────────
-    background-opacity = 1.0
-
     # ── Cursor ────────────────────────────────
     cursor-style = bar
     cursor-style-blink = false
@@ -47,7 +35,7 @@ in
 
     # ── Shell Integration ─────────────────────
     # Launch zsh with tmux session (matches WezTerm behavior)
-    command = ${ghosttyShell}/bin/ghostty-shell
+    command = ${pkgs.zsh}/bin/zsh -lc "${pkgs.tmux}/bin/tmux new-session -A -s main"
 
     # ── macOS Specific ────────────────────────
     macos-option-as-alt = true

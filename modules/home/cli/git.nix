@@ -150,15 +150,6 @@
       };
     };
 
-    # Alternative: difftastic - structural diff tool
-    # Uncomment to try it instead of delta
-    # git.extraConfig = {
-    #   diff.tool = "difftastic";
-    #   difftool.prompt = false;
-    #   difftool.difftastic.cmd = "${lib.getExe pkgs.difftastic} \"$LOCAL\" \"$REMOTE\"";
-    #   pager.difftool = true;
-    # };
-
     gh = {
       enable = true;
       settings = {
@@ -168,10 +159,5 @@
       };
     };
   };
-
-  # Install difftastic as an option to try
-  home.packages = with pkgs; [
-    difftastic
-  ];
 
 }
