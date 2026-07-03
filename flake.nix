@@ -25,12 +25,6 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Helix editor themes
-    helix-themes = {
-      url = "github:eureka-cpu/helix-themes.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs@{ self, flake-parts, systems, ... }:
@@ -111,10 +105,6 @@
           config = {
             allowUnfree = true;
           };
-          overlays = [
-            # Custom overlays can be added here
-            self.overlays.default or (_: _: { })
-          ];
         };
 
         # Formatter for `nix fmt`

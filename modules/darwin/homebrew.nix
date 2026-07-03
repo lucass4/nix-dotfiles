@@ -1,6 +1,5 @@
 # Homebrew package management configuration
 {
-  # Homebrew configuration
   homebrew = {
     onActivation = {
       upgrade = true;
@@ -9,23 +8,12 @@
     };
     enable = true;
 
-    #cleanup = "zap"; # Options: "zap", "uninstall", "none"
-
-    # Homebrew taps (no changes here)
     taps = [
-      "homebrew/bundle"
-      "homebrew/services"
-      "koekeishiya/formulae"
-      "fujiapple852/trippy"
-      "kreuzwerker/taps"
-      "metalbear-co/mirrord"
-      "warrensbox/tap"
       "aws/tap"
       "common-fate/granted"
       "aquasecurity/trivy"
     ];
 
-    # Homebrew casks (no changes here)
     casks = [
       "gpg-suite"
       "swiftdefaultappsprefpane"
@@ -39,52 +27,19 @@
       "visual-studio-code"
       "claude"
       "obsidian"
-      "protonvpn"
     ];
 
-    # Homebrew MAS apps (no changes here)
     masApps = { };
 
-    # Homebrew brews (no changes here)
     brews = [
-      # Networking and monitoring tools
+      # Networking and monitoring
       "trippy"
-      "eks-node-viewer"
 
-      # Development and language tools
+      # Development
       "pre-commit"
-      "lua"
-      "luajit"
-      "luv"
-      "mpdecimal"
-      "msgpack"
       "neovim"
       "node"
-      "openjdk"
-      "pcre2"
-      "readline"
-      "tree-sitter"
-      "virtualenv"
-
-      # Compression and libraries
-      "lz4"
-      "lzo"
-      "m4"
-      "nettle"
-      "openssl@1.1"
-      "pixman"
-      "pkg-config"
-      "unbound"
-      "unibilium"
-      "xorgproto"
-      "xz"
-      "zstd"
       "defaultbrowser"
-      "libxcb"
-      "libxdmcp"
-      "libxext"
-      "libxrender"
-      "libyaml"
 
       # CLI tools
       "ansiweather"
@@ -94,29 +49,26 @@
       "docker-compose"
       "docker-credential-helper"
       "eksctl"
-      "fontconfig"
       "goreleaser"
       "jq"
       "yq"
       "just"
       "pipx"
+      "rtk"
+      "helm@4"
+      "pgcli"
 
-      # Kubernetes tools
+      # Kubernetes
       "kubeseal"
       "kustomize"
       "vcluster"
 
-      # AWS and infrastructure tools
-      "aws-iam-authenticator"
+      # AWS and infrastructure
       "granted"
-      "m1-terraform-provider-helper"
       "steampipe"
 
       # Additional utilities
-      "bdw-gc"
-      "ca-certificates"
       "go@1.26" # Required by m1-terraform-provider-helper
-      "jpeg-turbo"
       "trivy"
       "devspace"
       "copier"

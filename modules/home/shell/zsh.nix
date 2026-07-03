@@ -1,5 +1,5 @@
 # Zsh shell configuration with plugins and aliases
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 {
   # Atuin - shell history with sync and search
   programs.atuin = {
@@ -219,7 +219,7 @@
     # Enable Oh My Zsh and configure plugins
     oh-my-zsh = {
       enable = true;
-      plugins = [ "sudo" "vim-interaction" "fzf" "vi-mode" "zoxide" "git" "extract" "command-not-found" ];
+      plugins = [ "sudo" "vim-interaction" "vi-mode" "git" "extract" "command-not-found" ];
     };
 
     # Shell aliases for improved command usability
@@ -253,20 +253,6 @@
       findport = "sudo lsof -iTCP -sTCP:LISTEN -n -P | grep";
       clean-dsstore = "find . -name '.DS_Store' -type f -print -delete";
 
-    } // lib.optionalAttrs pkgs.stdenv.isDarwin {
-      # macOS-specific commands
-      dwupdate =
-        "pushd ~/.config/nixpkgs ; nix flake update ; /opt/homebrew/bin/brew update; popd ; dwswitch ; /opt/homebrew/bin/brew upgrade ; /opt/homebrew/bin/brew upgrade --cask --greedy; dwshowupdates; popd";
-      dwswitch =
-        "pushd ~; cachix watch-exec zmre darwin-rebuild -- switch --flake ~/.config/nixpkgs/.#$(hostname -s) ; popd";
-      dwswitchx =
-        "pushd ~; darwin-rebuild switch --flake ~/.config/nixpkgs/.#$(hostname -s) ; popd";
-      dwclean =
-        "pushd ~; sudo nix-env --delete-generations +7 --profile /nix/var/nix/profiles/system; sudo nix-collect-garbage --delete-older-than 30d ; nix store optimise ; popd";
-      dwupcheck =
-        "pushd ~/.config/nixpkgs ; nix flake update ; darwin-rebuild build --flake ~/.config/nixpkgs/.#$(hostname -s) && nix store diff-closures /nix/var/nix/profiles/system ~/.config/nixpkgs/result; brew update >& /dev/null && brew upgrade -n -g; popd";
-      dwshowupdates = ''
-        zsh -c "nix store diff-closures /nix/var/nix/profiles/system-*-link(om[2]) /nix/var/nix/profiles/system-*-link(om[1])" '';
     };
   };
 }
