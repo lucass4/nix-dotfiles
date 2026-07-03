@@ -6,12 +6,8 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
-      # Bind to Ctrl+R for fuzzy history search
       ctrl_n_shortcuts = true;
-      # Sync settings (optional - requires account at atuin.sh)
       auto_sync = false;
-      sync_frequency = "0";
-      # Search settings
       search_mode = "fuzzy";
       filter_mode_shell_up_key_binding = "directory";
       style = "compact";
@@ -36,44 +32,9 @@
     Title = "#cba6f7"
   '';
 
-  # Enable Starship prompt and Zsh integration
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
-
-    settings = {
-      # Use Catppuccin Mocha color palette
-      palette = "catppuccin_mocha";
-
-      palettes.catppuccin_mocha = {
-        rosewater = "#f5e0dc";
-        flamingo = "#f2cdcd";
-        pink = "#f5c2e7";
-        mauve = "#cba6f7";
-        red = "#f38ba8";
-        maroon = "#eba0ac";
-        peach = "#fab387";
-        yellow = "#f9e2af";
-        green = "#a6e3a1";
-        teal = "#94e2d5";
-        sky = "#89dceb";
-        sapphire = "#74c7ec";
-        blue = "#89b4fa";
-        lavender = "#b4befe";
-        text = "#cdd6f4";
-        subtext1 = "#bac2de";
-        subtext0 = "#a6adc8";
-        overlay2 = "#9399b2";
-        overlay1 = "#7f849c";
-        overlay0 = "#6c7086";
-        surface2 = "#585b70";
-        surface1 = "#45475a";
-        surface0 = "#313244";
-        base = "#1e1e2e";
-        mantle = "#181825";
-        crust = "#11111b";
-      };
-    };
   };
 
   # Zsh configuration
@@ -92,11 +53,9 @@
       save = 100000; # Save 100,000 lines of history
     };
 
-    # Extra environment settings
     envExtra = ''
       # Skip global compinit to speed up shell startup
       skip_global_compinit=1
-      export PATH="$HOME/.istioctl/bin:$PATH"
     '';
 
     # Zsh completion initialization
@@ -118,14 +77,6 @@
 
       export SDKMAN_DIR="${config.home.homeDirectory}/.sdkman"
       [[ -s "${config.home.homeDirectory}/.sdkman/bin/sdkman-init.sh" ]] && source "${config.home.homeDirectory}/.sdkman/bin/sdkman-init.sh"
-
-      function y() {
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-        yazi "$@" --cwd-file="$tmp"
-        IFS= read -r -d \'\' cwd < "$tmp"
-        [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-        rm -f -- "$tmp"
-      }
 
       # Auto-notification for long-running commands
       # Notify when commands take longer than 30 seconds
@@ -192,10 +143,6 @@
       }
     '';
 
-    # Session variables
-    sessionVariables = { };
-
-    # Zsh plugins configuration
     plugins = [
       {
         name = "zsh-nix-shell";
@@ -219,40 +166,33 @@
     # Enable Oh My Zsh and configure plugins
     oh-my-zsh = {
       enable = true;
-      plugins = [ "sudo" "vim-interaction" "vi-mode" "git" "extract" "command-not-found" ];
+      plugins = [ "sudo" "vi-mode" "git" "extract" "command-not-found" ];
     };
 
-    # Shell aliases for improved command usability
     shellAliases = {
-      # File and directory management
-      ls = "eza --icons --git -F";
+      # eza (better ls)
       l = "eza --icons --git -F";
       ll = "eza --icons --git -F -l";
       la = "eza --icons --git -F -a";
       lla = "eza --icons --git -F -la";
       lt = "eza --icons --git -F -T";
       llt = "eza --icons --git -F -l -T";
-      fd = "\\fd -H -t d"; # Default search directories
-      f = "\\fd -H"; # Search this dir for files, ignoring .gitignore
-      grep = "rg"; # Use ripgrep for search
-      cat = "bat"; # Use bat instead of cat
-      rm = "trash"; # Use trash instead of rm
-      du = "dust"; # Use dust instead of du
-      rpassword = "tr -dc A-Za-z0-9 </dev/urandom | head -c 20 |  pbcopy";
 
-      # Docker and infrastructure tools
-      d = "docker";
+      # fd shortcuts (real `fd` stays unaliased)
+      fdd = "fd -H -t d"; # directories only
+      f = "fd -H"; # include hidden, ignore .gitignore
+
+      # Docker / infra
       dc = "docker compose";
       tg = "terragrunt";
       tf = "terraform";
 
-      # Other aliases
+      # Misc
       assume = "source /opt/homebrew/bin/assume";
-      fz =
-        "fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'";
+      fz = "fzf --preview 'bat --style=numbers --color=always --line-range :500 {}' --bind 'enter:become(hx {})'";
       findport = "sudo lsof -iTCP -sTCP:LISTEN -n -P | grep";
-      clean-dsstore = "find . -name '.DS_Store' -type f -print -delete";
-
+      clean-dsstore = "fd -H '\\.DS_Store$' -x rm";
+      rpassword = "tr -dc A-Za-z0-9 </dev/urandom | head -c 20 | pbcopy";
     };
   };
 }

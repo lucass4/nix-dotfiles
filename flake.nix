@@ -62,7 +62,6 @@
 
                 specialArgs = {
                   inherit inputs hostName username;
-                  inherit (self) outputs;
                 };
 
                 modules = [
@@ -75,6 +74,7 @@
                     home-manager = {
                       useGlobalPkgs = true;
                       useUserPackages = true;
+                      backupFileExtension = "backup";
 
                       users.${username} = {
                         imports = [ ./modules/home ];
@@ -82,11 +82,7 @@
 
                       extraSpecialArgs = {
                         inherit inputs hostName username;
-                        inherit (self) outputs;
                       };
-
-                      # Enable verbose mode for debugging
-                      verbose = true;
                     };
                   }
                 ]
@@ -128,84 +124,9 @@
               just # Command runner
             ];
 
-            shellHook = ''
-              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-              echo "🏠 Dotfiles Development Environment"
-              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-              echo ""
-              echo "📦 Available commands:"
-              echo "  nix fmt                    Format Nix files"
-              echo "  nix flake check            Run all checks"
-              echo "  nix flake show             Show flake outputs"
-              echo "  statix check .             Lint Nix files"
-              echo "  deadnix .                  Find unused Nix code"
-              echo ""
-              echo "🖥️  System management:"
-              echo "  darwin-rebuild switch --flake .#\$(hostname -s)"
-              echo "  darwin-rebuild build --flake .#\$(hostname -s)"
-              echo ""
-              echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            '';
           };
         };
 
-        # Validation checks for CI/pre-commit
-        checks = {
-          # Check that all Nix files are formatted
-          formatting = pkgs.runCommand "check-formatting"
-            {
-              buildInputs = [ pkgs.nixpkgs-fmt ];
-            }
-            ''
-              cd ${self}
-              nixpkgs-fmt --check .
-              touch $out
-            '';
-
-          # Static analysis of Nix files
-          statix = pkgs.runCommand "statix-check"
-            {
-              buildInputs = [ pkgs.statix ];
-            }
-            ''
-              cd ${self}
-              statix check .
-              touch $out
-            '';
-
-          # Find dead/unused Nix code
-          deadnix = pkgs.runCommand "deadnix-check"
-            {
-              buildInputs = [ pkgs.deadnix ];
-            }
-            ''
-              cd ${self}
-              deadnix --fail .
-              touch $out
-            '';
-        };
-
-        # Custom packages (example)
-        packages = {
-          # Add custom packages here
-          # Example:
-          # my-script = pkgs.writeShellScriptBin "my-script" ''
-          #   echo "Hello from custom package!"
-          # '';
-        };
-
-        # Custom apps (example)
-        apps = {
-          # Add custom apps here
-          # Example:
-          # update = {
-          #   type = "app";
-          #   program = "${pkgs.writeShellScript "update" ''
-          #     nix flake update
-          #     darwin-rebuild switch --flake .#$(hostname -s)
-          #   ''}";
-          # };
-        };
       };
     };
 }

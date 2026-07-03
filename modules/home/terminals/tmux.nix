@@ -6,7 +6,6 @@
 
     # Core settings
     clock24 = true;
-    disableConfirmationPrompt = true;
     historyLimit = 50000; # Increased scrollback
     prefix = "C-a";
     terminal = "tmux-256color";
@@ -128,9 +127,6 @@
       bind x kill-pane            # Kill pane without confirmation
       bind k kill-window          # Kill window
       bind q kill-session         # Kill session
-
-      # Reload config
-      bind r source-file ~/.config/home-manager/tmux.conf \; display-message "Config reloaded!"
 
       # Buffer management
       bind b list-buffers   # List paste buffers
