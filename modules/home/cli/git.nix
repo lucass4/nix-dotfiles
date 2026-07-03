@@ -80,14 +80,12 @@
 
         core = {
           editor = "hx";
-          # Suppress stderr warnings from delta
-          pager = "${lib.getExe pkgs.delta} 2>/dev/null || ${lib.getExe pkgs.delta}";
+          pager = lib.getExe pkgs.delta;
           fileMode = false;
           ignorecase = false;
         };
 
-        # Interactive diff with delta
-        interactive.diffFilter = "${lib.getExe pkgs.delta} --color-only 2>/dev/null";
+        interactive.diffFilter = "${lib.getExe pkgs.delta} --color-only";
 
         url."git@github.com:".insteadOf = "https://github.com/";
       };

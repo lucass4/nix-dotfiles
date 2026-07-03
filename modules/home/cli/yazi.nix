@@ -11,6 +11,7 @@ in
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
+    shellWrapperName = "y";
   };
 
   # Install Catppuccin Mocha theme with blue accent

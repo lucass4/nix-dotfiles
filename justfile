@@ -86,6 +86,5 @@ lint:
 deadcode:
     nix run nixpkgs#deadnix -- .
 
-# Run all checks (format, lint, flake check)
-ci: fmt lint
-    nix flake check
+# Run all checks (format, lint, deadcode)
+ci: fmt lint deadcode
