@@ -147,4 +147,37 @@ JSON
 )" >/dev/null
 printf '    ok    %s rules\n' "$(omp config get bash.patterns | tr ',' '\n' | grep -c approval)"
 
+# Settings that are not defaults and are easy to lose on a fresh machine.
+# Same reason as the gate above: omp write-locks config.yml, so these cannot be
+# declared in nix.
+log "Applying agent settings"
+set_cfg() { omp config set "$1" "$2" >/dev/null && printf '    %-32s %s\n' "$1" "$2"; }
+
+# A finished run pings; a failed one used to be silent. Errors are the case
+# actually worth interrupting for.
+set_cfg error.notify on
+
+# Every formatter this repo installs (nixfmt, shfmt, prettier, stylua, yapf,
+# rustfmt, golines) is wasted if agent edits land unformatted.
+set_cfg lsp.formatOnWrite true
+set_cfg lsp.diagnosticsOnEdit true
+
+# terraform plan / helm --wait / kubectl wait otherwise block the whole turn.
+set_cfg bash.autoBackground.enabled true
+
+# Per-turn effort chosen by the `tiny` role instead of a flat high budget on
+# every trivial turn. This is a latency lever, not a cost one — spend is
+# already negligible at a 100% cache rate.
+set_cfg defaultThinkingLevel auto
+
+# Reviewer roster, checkpoints and memory live in config.yml too; they are set
+# here so a rebuilt machine does not silently come up without them.
+set_cfg checkpoint.enabled true
+set_cfg advisor.enabled true
+set_cfg advisor.syncBacklog 1
+set_cfg memory.backend local
+set_cfg autolearn.enabled true
+set_cfg compaction.idleEnabled true
+set_cfg marketplace.autoUpdate auto
+
 log "Done. Run /reload-plugins in a live session, or restart omp."
