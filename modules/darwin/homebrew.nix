@@ -25,8 +25,8 @@
       "raycast"
       "diffmerge"
       "visual-studio-code"
-      "claude"
       "obsidian"
+      "claude-code"
     ];
 
     masApps = { };
@@ -58,6 +58,11 @@
       "helm@4"
       "pgcli"
 
+      # GPG: headless commit signing via macOS Keychain.
+      # Required by programs.git.signing.signByDefault — without it gpg-agent
+      # falls back to pinentry-curses, which needs a TTY and hangs.
+      "pinentry-mac"
+
       # Kubernetes
       "kubeseal"
       "kustomize"
@@ -76,6 +81,7 @@
       "skopeo"
       "argocd"
       "opencode"
+      "can1357/tap/omp"
     ];
   };
 }
