@@ -1,0 +1,112 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(rtk git *)",
+      "Bash(kubectl *)",
+      "Bash(rtk kubectl *)",
+      "Bash(helm *)",
+      "Bash(rtk helm *)",
+      "Bash(kustomize build *)",
+      "Bash(yq *)",
+      "Bash(jq *)",
+      "Bash(gh pr *)",
+      "Bash(gh repo *)",
+      "Bash(gh run *)",
+      "Bash(gh api *)",
+      "Bash(rtk gh *)",
+      "Bash(aws sts *)",
+      "Bash(aws eks *)",
+      "Bash(aws route53 *)",
+      "Bash(aws iam list* *)",
+      "Bash(aws iam get* *)",
+      "Bash(npm test *)",
+      "Bash(npm install *)",
+      "Bash(npm ci *)",
+      "Bash(curl *)",
+      "Bash(bash -n *)",
+      "Bash(find *)",
+      "Bash(rtk find *)",
+      "Bash(grep *)",
+      "Bash(rtk grep *)",
+      "Bash(rtk rg *)",
+      "Bash(ls *)",
+      "Bash(rtk ls *)",
+      "Bash(cat *)",
+      "Bash(sed -n *)",
+      "Bash(mkdir -p *)",
+      "Bash(chmod *)",
+      "Bash(tar *)",
+      "Bash(sleep *)",
+      "Bash(command -v *)",
+      "Bash(make *)"
+    ]
+  },
+  "model": "claude-opus-4-8",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rtk hook claude"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash \"/Users/lucas/.claude/plugins/cache/ponytail/ponytail/4.8.4/hooks/ponytail-statusline.sh\""
+  },
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true,
+    "terraform-skill@antonbabenko": true,
+    "superpowers@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "slack@claude-plugins-official": true,
+    "d2@claude-d2-diagrams": true,
+    "datadog@claude-plugins-official": true,
+    "ponytail@ponytail": true,
+    "caveman@caveman": true
+  },
+  "extraKnownMarketplaces": {
+    "antonbabenko": {
+      "source": {
+        "source": "github",
+        "repo": "antonbabenko/terraform-skill"
+      }
+    },
+    "claude-d2-diagrams": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/heathdutton/claude-d2-diagrams.git"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    },
+    "ui-ux-pro-max-skill": {
+      "source": {
+        "source": "github",
+        "repo": "nextlevelbuilder/ui-ux-pro-max-skill"
+      }
+    }
+  },
+  "skipWorkflowUsageWarning": true
+}
