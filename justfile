@@ -74,6 +74,10 @@ clean-nix-deep:
 # Run all cleanup tasks
 clean-all: clean clean-nix
 
+# Give omp its own copy of the Claude Code plugin set (idempotent)
+omp-sync:
+    ./scripts/omp-sync.sh
+
 # Format Nix files
 fmt:
     nix fmt
