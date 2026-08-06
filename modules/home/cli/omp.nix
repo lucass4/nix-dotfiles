@@ -69,6 +69,13 @@
     ever fails again, stop and report it rather than silently retrying unsigned.
   '';
 
+  # rtk (token-optimising command proxy) is wired into Claude Code through a
+  # PreToolUse hook. rtk ships no `rtk hook omp`, so this extension speaks the
+  # `rtk hook claude` stdin/stdout JSON contract instead of duplicating the
+  # rewrite engine, and revises the bash tool's input from `tool_call`.
+  # Auto-discovered: omp loads every module under the agent extensions dir.
+  home.file.".omp/agent/extensions/rtk.ts".source = ./omp/extensions/rtk.ts;
+
   # pinentry-mac lets gpg-agent unlock the signing key from non-TTY contexts
   # (coding agents, hooks, CI) via the macOS Keychain. Without it the agent
   # falls back to pinentry-curses, which needs a TTY and hangs, breaking
