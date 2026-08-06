@@ -69,6 +69,19 @@
     ever fails again, stop and report it rather than silently retrying unsigned.
   '';
 
+  # Native user context. This file SHADOWS ~/.claude/CLAUDE.md outright —
+  # native discovery is priority 100, claude is 80, and only one user-scope
+  # context file survives. The rtk guidance that CLAUDE.md pulls in via
+  # `@RTK.md` would be silently lost, so AGENTS.md imports the very same file
+  # and RTK.md is placed alongside it. One source, two locations, no drift.
+  home.file.".omp/agent/AGENTS.md".source = ./omp/AGENTS.md;
+  home.file.".omp/agent/RTK.md".source = ./claude/RTK.md;
+
+  # Advisor roster. Reviewer models that read the primary transcript and can
+  # interrupt a turn. Only meaningful because advisor.enabled is on, which
+  # lives in the unmanaged config.yml.
+  home.file.".omp/agent/WATCHDOG.yml".source = ./omp/WATCHDOG.yml;
+
   # rtk (token-optimising command proxy) is wired into Claude Code through a
   # PreToolUse hook. rtk ships no `rtk hook omp`, so this extension speaks the
   # `rtk hook claude` stdin/stdout JSON contract instead of duplicating the
