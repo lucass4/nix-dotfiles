@@ -62,5 +62,16 @@
     tfswitch
     tflint
     terraform-docs
+
+    # Language servers. omp ships built-in definitions for these (terraformls,
+    # yamlls, helm-ls, dockerls, bashls, ts); it only needs the binaries on
+    # PATH. Without them `lsp.enabled = true` is inert for Terraform, k8s
+    # manifests and Helm charts, and the agent falls back to grep.
+    terraform-ls
+    yaml-language-server
+    helm-ls # installs the `helm_ls` binary omp looks for
+    dockerfile-language-server-nodejs
+    bash-language-server
+    typescript-language-server
   ];
 }

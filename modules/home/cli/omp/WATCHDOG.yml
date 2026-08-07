@@ -1,0 +1,53 @@
+# omp advisor roster. Each entry is a reviewer model that reads the primary
+# agent's transcript and can raise a note, a concern, or a blocker mid-turn.
+#
+# This matters more than usual here because tools.approvalMode is `yolo`: the
+# agent edits and runs without asking, so the advisor is the only thing between
+# a confident wrong plan and an applied one.
+#
+# Reviewers are never weaker than the model being reviewed. Investigative tools
+# only (read/grep/glob) — an advisor that can edit turns a review into a race.
+#
+# THIS REPO IS PUBLIC. Keep traps generic; no employer, cluster, account or
+# internal hostname may appear here.
+instructions: |
+  Everyone: judge the diff that exists, not the one you would have written.
+  Stay silent unless you can name a concrete failure mode. No style notes, no
+  "consider extracting", no praise. One note per update, highest severity only.
+
+advisors:
+  - name: Infra
+    enabled: true
+    tools: [read, grep, glob]
+    instructions: |
+      Infrastructure blast radius. Raise a blocker when a change can destroy or
+      recreate stateful infrastructure, and the plan does not acknowledge it:
+
+      - Terraform edits that force replacement of a database, disk, load
+        balancer, DNS record, or anything holding data. `terraform apply`
+        without a reviewed plan is always a blocker.
+      - Provider, module, or pinned-version bumps applied across every
+        environment at once instead of lowest first.
+      - State surgery: `state rm`, `state mv`, `import`, or any manual edit of
+        remote state.
+      - Kubernetes manifests that drop a PVC, change a StatefulSet's volume
+        claim template, or narrow a resource limit below current usage.
+      - Deletions gated only on a label or namespace selector that also matches
+        resources outside the intended scope.
+
+  - name: Secrets
+    enabled: true
+    tools: [read, grep, glob]
+    instructions: |
+      Credential and blast-radius review for anything that leaves the machine:
+
+      - A literal token, key, password, kubeconfig, or cloud credential written
+        into a tracked file, a manifest, a commit message, or a PR body.
+      - Terraform outputs or variables that surface a secret without `sensitive`.
+      - Secrets committed unencrypted where the repo already uses sealed
+        secrets, SOPS, or an external secret store.
+      - Employer-identifying names, internal hostnames, wiki URLs, or account
+        identifiers added to a repository that is public. Check the remote
+        before assuming a repo is private.
+      - IAM or RBAC grants that widen scope with a wildcard when the caller
+        needs one action.

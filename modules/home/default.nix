@@ -16,6 +16,8 @@
     ./cli/common.nix
     ./cli/git.nix
     ./cli/yazi.nix
+    ./cli/omp.nix
+    ./cli/claude.nix
 
     # Development environments
     ./dev/kubernetes.nix
